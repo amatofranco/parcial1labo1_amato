@@ -61,30 +61,17 @@ int main(void) {
 
 	Fecha fechaAux;
 
-	if (electro_iniciar(arrayElectro, QTY_ELECTRODOMESTICOS) == 0) {
-		printf("Electrodomesticos se inició correctamente \n");
-	}
+	electro_iniciar(arrayElectro, QTY_ELECTRODOMESTICOS);
+	marca_iniciar(arrayMarcas, QTY_MARCAS);
+    reparacion_iniciar(arrayReparaciones, QTY_REPARACIONES);
+	servicio_iniciar(arrayServicios, QTY_SERVICIOS);
+	fecha_iniciar(arrayFechas, QTY_FECHAS);
 
-	if (marca_iniciar(arrayMarcas, QTY_MARCAS) == 0) {
-		printf("Marcas se inició correctamente \n");
-	}
 
-	if (reparacion_iniciar(arrayReparaciones, QTY_REPARACIONES) == 0) {
-		printf("Reparaciones se inició correctamente \n");
-	}
+	electro_altaForzada(arrayElectro, QTY_ELECTRODOMESTICOS, &idElectro, 124325,2005, 1001);
+	electro_altaForzada(arrayElectro, QTY_ELECTRODOMESTICOS, &idElectro, 204512,2005, 1001);
 
-	if (servicio_iniciar(arrayServicios, QTY_SERVICIOS) == 0) {
-		printf("Servicio se inició correctamente \n");
-	}
-
-	if (fecha_iniciar(arrayFechas, QTY_FECHAS) == 0) {
-		printf("Fecha se inició correctamente \n");
-	}
-
-	electro_altaForzada(arrayElectro, QTY_ELECTRODOMESTICOS, &idElectro, 124325,
-			2005, 1001);
-	electro_altaForzada(arrayElectro, QTY_ELECTRODOMESTICOS, &idElectro, 200214,
-			1990, 1002);
+	electro_altaForzada(arrayElectro, QTY_ELECTRODOMESTICOS, &idElectro, 200214,1990, 1002);
 
 	marca_altaForzada(arrayMarcas, QTY_MARCAS, &idMarca, "Whirpool");
 	marca_altaForzada(arrayMarcas, QTY_MARCAS, &idMarca, "Sony");
@@ -98,8 +85,6 @@ int main(void) {
 	servicio_altaForzada(arrayServicios,QTY_SERVICIOS,"Repuestos",400,&idServ);
 	servicio_altaForzada(arrayServicios,QTY_SERVICIOS,"Refaccion",600,&idServ);
 
-	/* reparacion_altaForzada(arrayReparaciones, QTY_REPARACIONES, &idRepa,
-	 "A5453", 1040, 200000); */
 
 	do {
 
@@ -169,6 +154,8 @@ int main(void) {
 				break;
 
 			case 4:
+
+				electro_ordenar(arrayElectro,QTY_ELECTRODOMESTICOS);
 
 				if (electro_imprimirArray(arrayElectro,
 				QTY_ELECTRODOMESTICOS) == 0) { //

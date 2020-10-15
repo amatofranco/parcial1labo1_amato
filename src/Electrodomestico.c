@@ -565,19 +565,11 @@ int electro_baja(Electrodomestico *array, int length) {
  */
 
 
-/*
 int electro_ordenar(Electrodomestico *array, int length) {
 
 	int ret = -1;
-	int orden;
 	int flagSwap;
 	Electrodomestico buffer;
-
-	if (array != NULL && length > 0
-			&& utn_getNumero(&orden,
-					"Seleccione: 1 para Ordenamiento ascendete, "
-							"2 para Ordenamiento desdente", "Opción no válida",
-					1, 2, 2) == 0) {
 
 		do {
 
@@ -585,37 +577,16 @@ int electro_ordenar(Electrodomestico *array, int length) {
 
 			for (int i = 0; i < length - 1; i++) {
 
-				if (orden == 1) {
-
-					if (strncmp(array[i].serie, array[i + 1].serie,
-					MAX_SERIE) > 0
-							|| (strncmp(array[i].serie, array[i + 1].serie,
-							MAX_SERIE) == 0
-									&& array[i].año > array[i + 1].año)) {
+					if (
+							array[i].año > array[i + 1].año
+							|| (array[i].año == array[i + 1].año
+							&& array[i].serie > array[i + 1].serie)) {
 
 						flagSwap = 1;
 						buffer = array[i];
 						array[i] = array[i + 1];
 						array[i + 1] = buffer;
 					}
-
-				}
-
-				else if (orden == 2) {
-
-					if (strncmp(array[i].serie, array[i + 1].serie,
-					MAX_SERIE) < 0
-							|| (strncmp(array[i].serie, array[i + 1].serie,
-							MAX_SERIE) == 0
-									&& array[i].año < array[i + 1].año)) {
-
-						flagSwap = 1;
-						buffer = array[i];
-						array[i] = array[i + 1];
-						array[i + 1] = buffer;
-					}
-
-				}
 			}
 
 			length--;
@@ -624,10 +595,11 @@ int electro_ordenar(Electrodomestico *array, int length) {
 
 		ret = 0;
 
-	}
+
 	return ret;
 }
-*/
+
+
 /**
  * Inserta un Electrodomestico en el array con los datos ya cargados
  * @param array Puntero al array
