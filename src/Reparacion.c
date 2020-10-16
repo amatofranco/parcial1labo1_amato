@@ -7,7 +7,7 @@
 #include "Electrodomestico.h"
 
 /**
- * Imprime todos los datos de una Pantalla
+ * Imprime todos los datos de una posicion de Reparacion
  * @param puntero a estructura Pantalla a imprimir
  * @return 0 Éxito -1 Error
  */
@@ -30,6 +30,11 @@ int reparacion_imprimir(Reparacion *pReparacion) {
 	return ret;
 }
 
+/**
+ * Imprime todos los datos de una posicion de Servicio
+ * @param pServicio array Servicio
+ * @return 0 Éxito -1 Error
+ */
 int servicio_imprimir(Servicio *pServicio) {
 
 	int ret = -1;
@@ -45,6 +50,11 @@ int servicio_imprimir(Servicio *pServicio) {
 	return ret;
 }
 
+/**
+ * Imprime dia, mes y año a partir de Estructura Fecha
+ * @param pFecha
+ * @return 0 Éxito -1 Error
+ */
 int fecha_imprimir(Fecha *pFecha) {
 
 	int ret = -1;
@@ -59,8 +69,9 @@ int fecha_imprimir(Fecha *pFecha) {
 	}
 	return ret;
 }
-/** \brief Imprime la lista de Pantallas con sus respectivos datos
- * \param list puntero a array de Pantallas
+
+/** \brief Imprime la lista de Reparaciones con sus respectivos datos
+ * \param list puntero a array de Reparacion
  * \param len largo del array
  * \return 0 Éxito -1 Error
  *
@@ -91,6 +102,13 @@ int reparacion_imprimirArray(Reparacion *array, int length) {
 	return ret;
 }
 
+
+/**
+ *Imprime una posicion del array Fecha
+ * @param array
+ * @param length
+ * @return
+ */
 int fecha_imprimirArray(Fecha *array, int length) {
 
 	int ret = -1;
@@ -111,6 +129,13 @@ int fecha_imprimirArray(Fecha *array, int length) {
 	return ret;
 }
 
+
+/**
+ * Imprime array de Servicios
+ * @param array array de servicios
+ * @param length largo del array
+ * @return 0 Éxito -1 Error
+ */
 int servicio_imprimirArray(Servicio *array, int length) {
 
 	int ret = -1;
@@ -130,8 +155,9 @@ int servicio_imprimirArray(Servicio *array, int length) {
 	}
 	return ret;
 }
+
 /**
- * Para indicar que todas las posiciones del array están vacías,
+ * Para indicar que todas las posiciones del array Reparacion están vacías,
  * pone la bandera (isEmpty) en TRUE en todas las posiciones
  * \param list puntero al array
  * \param len largo del array
@@ -152,6 +178,14 @@ int reparacion_iniciar(Reparacion *array, int length) {
 
 }
 
+/**
+ * Para indicar que todas las posiciones del array Servicio están vacías,
+ * pone la bandera (isEmpty) en TRUE en todas las posiciones
+ * \param list puntero al array
+ * \param len largo del array
+ * \return 0 Éxito -1 Error
+ *
+ */
 int servicio_iniciar(Servicio *array, int length) {
 
 	int ret = -1;
@@ -165,6 +199,16 @@ int servicio_iniciar(Servicio *array, int length) {
 	return ret;
 
 }
+
+/**
+ * Para indicar que todas las posiciones del array Fecha están vacías,
+ * pone la bandera (isEmpty) en TRUE en todas las posiciones
+ * \param list puntero al array
+ * \param len largo del array
+ * \return 0 Éxito -1 Error
+ *
+ */
+
 
 int fecha_iniciar(Fecha *array, int length) {
 
@@ -180,7 +224,7 @@ int fecha_iniciar(Fecha *array, int length) {
 
 }
 /**
- * Busca un lugar vacio en el array y lo asigna a puntero indice
+ * Busca un lugar vacio en el array Reparacion y lo asigna a puntero indice
  * @param list Puntero al array
  * @param len longitud del array
  * @param puntero indice
@@ -207,6 +251,13 @@ int reparacion_emptyIndex(Reparacion *array, int length, int *indice) {
 	return ret;
 }
 
+/**
+ * Busca un lugar vacio en el array Servicio y lo asigna a puntero indice
+ * @param list Puntero al array
+ * @param len longitud del array
+ * @param puntero indice
+ * @return 0 Éxito -1 Error
+ */
 int servicio_emptyIndex(Servicio *array, int length, int *indice) {
 
 	int ret = -1;
@@ -227,6 +278,13 @@ int servicio_emptyIndex(Servicio *array, int length, int *indice) {
 	return ret;
 }
 
+/**
+ * Busca un lugar vacio en el array Fecha y lo asigna a puntero indice
+ * @param list Puntero al array
+ * @param len longitud del array
+ * @param puntero indice
+ * @return 0 Éxito -1 Error
+ */
 int fecha_emptyIndex(Fecha *array, int length, int *indice) {
 
 	int ret = -1;
@@ -248,7 +306,7 @@ int fecha_emptyIndex(Fecha *array, int length, int *indice) {
 }
 
 /**
- * Verifica si el array en su totalidad está vacio
+ * Verifica si el array Reparacion en su totalidad está vacio
  * @param list puntero a Array
  * @param length largo del Array
  * @return 1 Verdadero (Array vacio) 0 Falso
@@ -272,6 +330,12 @@ int reparacion_emptyArray(Reparacion *list, int length) {
 	return ret;
 }
 
+/**
+ * Verifica si el array Servicio en su totalidad está vacio
+ * @param list puntero a Array
+ * @param length largo del Array
+ * @return 1 Verdadero (Array vacio) 0 Falso
+ */
 int servicio_emptyArray(Servicio *list, int length) {
 
 	int ret = 1; // TRUE
@@ -290,6 +354,12 @@ int servicio_emptyArray(Servicio *list, int length) {
 	return ret;
 }
 
+/**
+ * Verifica si el array Fecha en su totalidad está vacio
+ * @param list puntero a Array
+ * @param length largo del Array
+ * @return 1 Verdadero (Array vacio) 0 Falso
+ */
 int fecha_emptyArray(Fecha *list, int length) {
 
 	int ret = 1; // TRUE
@@ -307,8 +377,9 @@ int fecha_emptyArray(Fecha *list, int length) {
 
 	return ret;
 }
+
 /**
- * Agrega una Pantalla al array de Pantallas
+ * Agrega una Reparacion al array de Reparaciones
  * @param list puntero a Array
  * @param len longitud del array
  * @param indice indice del Array donde se agregará
@@ -359,6 +430,13 @@ int reparacion_alta(Reparacion *array, int length, int *pId, int idServicio,
 	return ret;
 }
 
+/**
+ * Agrega un Servicio al Array de Servicio
+ * @param array Puntero al array
+ * @param length Largo del array
+ * @param pId puntero a Id (Autoincremental)
+ * @return
+ */
 int servicio_alta(Servicio *array, int length, int *pId) {
 
 	Servicio bufferServ;
@@ -399,6 +477,13 @@ int servicio_alta(Servicio *array, int length, int *pId) {
 	return ret;
 }
 
+/**
+ * Agrega una Fecha al Array Fecha
+ * @param array Puntero al array
+ * @param length Largo del array
+ * @param pFecha Puntero a Estructura Fecha (auxiliar)
+ * @return
+ */
 int fecha_alta(Fecha *array, int length, Fecha *pFecha) {
 
 	Fecha bufferFecha;
@@ -440,8 +525,9 @@ int fecha_alta(Fecha *array, int length, Fecha *pFecha) {
 
 	return ret;
 }
+
 /**
- * Verifica si existe una posición ocupada del array
+ * Verifica si existe una posición ocupada del array Reparacion
  * que coincida con el valor del id y la asigna a puntero indice
  * @param list Puntero al array
  * @param len longitud del array
@@ -474,6 +560,16 @@ int reparacion_buscarId(Reparacion *array, int length, int id, int *indice) {
 	return ret;
 }
 
+
+/**
+ * Verifica si existe una posición ocupada del array Servicio
+ * que coincida con el valor del id y la asigna a puntero indice
+ * @param list Puntero al array
+ * @param len longitud del array
+ * @param id id a buscar
+ * @param puntero a indice
+ * @return posición del array
+ */
 int servicio_buscarId(Servicio *array, int length, int id, int *indice) {
 
 	int ret = -1;
@@ -499,6 +595,16 @@ int servicio_buscarId(Servicio *array, int length, int id, int *indice) {
 	return ret;
 }
 
+
+/**
+ * Agrega un Servicio al array de Servicio con datos precargados
+ * @param array puntero al array
+ * @param length largo del array
+ * @param descripcion descripcion Servicio
+ * @param precio Precio Servicio
+ * @param pId Puntero a Id (autoincremental)
+ * @return
+ */
 int servicio_altaForzada(Servicio *array, int length, char *descripcion,
 		float precio, int *pId) {
 
