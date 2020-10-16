@@ -18,16 +18,17 @@ int reparacion_imprimir(Reparacion *pReparacion) {
 
 	if (pReparacion != NULL && pReparacion->isEmpty == 0) {
 
-		printf("Reparacion id %d Serie Electrodomestico: %d, Id servicio: %d Fecha: %d / %d / %d \n ",
+		printf(
+				"Reparacion id %d Serie Electrodomestico: %d, Id servicio: %d Fecha: %d / %d / %d \n ",
 				pReparacion->id, pReparacion->serie, pReparacion->idServicio,
-				pReparacion->fecha.dia, pReparacion->fecha.mes, pReparacion->fecha.año);
+				pReparacion->fecha.dia, pReparacion->fecha.mes,
+				pReparacion->fecha.año);
 
 		ret = 0;
 
 	}
 	return ret;
 }
-
 
 int servicio_imprimir(Servicio *pServicio) {
 
@@ -50,8 +51,8 @@ int fecha_imprimir(Fecha *pFecha) {
 
 	if (pFecha != NULL && pFecha->isEmpty == 0) {
 
-		printf("Fecha: %d / %d / %d \n ",
-				pFecha->dia, pFecha->mes, pFecha->año);
+		printf("Fecha: %d / %d / %d \n ", pFecha->dia, pFecha->mes,
+				pFecha->año);
 
 		ret = 0;
 
@@ -68,7 +69,13 @@ int reparacion_imprimirArray(Reparacion *array, int length) {
 
 	int ret = -1;
 
-	if (array != NULL && length > 0) {
+	if (reparacion_emptyArray(array, length)) {
+
+		printf("No hay valores cargados para mostrar \n");
+
+	}
+
+	else if (array != NULL && length > 0) {
 
 		for (int i = 0; i < length; i++) {
 
@@ -83,7 +90,6 @@ int reparacion_imprimirArray(Reparacion *array, int length) {
 	}
 	return ret;
 }
-
 
 int fecha_imprimirArray(Fecha *array, int length) {
 
@@ -221,7 +227,6 @@ int servicio_emptyIndex(Servicio *array, int length, int *indice) {
 	return ret;
 }
 
-
 int fecha_emptyIndex(Fecha *array, int length, int *indice) {
 
 	int ret = -1;
@@ -285,7 +290,6 @@ int servicio_emptyArray(Servicio *list, int length) {
 	return ret;
 }
 
-
 int fecha_emptyArray(Fecha *list, int length) {
 
 	int ret = 1; // TRUE
@@ -312,7 +316,8 @@ int fecha_emptyArray(Fecha *list, int length) {
  * @return 0 Éxito -1 Error
  */
 
-int reparacion_alta(Reparacion *array, int length, int *pId, int idServicio, int serie, Fecha fecha) {
+int reparacion_alta(Reparacion *array, int length, int *pId, int idServicio,
+		int serie, Fecha fecha) {
 
 	Reparacion bufferReparacion;
 
@@ -354,7 +359,6 @@ int reparacion_alta(Reparacion *array, int length, int *pId, int idServicio, int
 	return ret;
 }
 
-
 int servicio_alta(Servicio *array, int length, int *pId) {
 
 	Servicio bufferServ;
@@ -373,11 +377,10 @@ int servicio_alta(Servicio *array, int length, int *pId) {
 
 		}
 
-		else if (utn_getTexto(bufferServ.descripcion,
-				"Ingrese descripcion \n", "Ingreso inválido \n",1,MAX_DESCRIPCION, 2) == 0
+		else if (utn_getTexto(bufferServ.descripcion, "Ingrese descripcion \n",
+				"Ingreso inválido \n", 1, MAX_DESCRIPCION, 2) == 0
 
-				&& utn_getFloat(&bufferServ.precio,
-						"Ingrese PRECIO\n",
+				&& utn_getFloat(&bufferServ.precio, "Ingrese PRECIO\n",
 						"Número inválido \n", 1, 200000, 2) == 0) {
 
 			bufferServ.id = *pId;
@@ -395,9 +398,6 @@ int servicio_alta(Servicio *array, int length, int *pId) {
 
 	return ret;
 }
-
-
-
 
 int fecha_alta(Fecha *array, int length, Fecha *pFecha) {
 
@@ -417,13 +417,15 @@ int fecha_alta(Fecha *array, int length, Fecha *pFecha) {
 
 		}
 
-		else if (
-				utn_getNumero(&bufferFecha.dia,"Ingrese dia en números \n","Numero invalido \n",1,31,2)==0
-				&& utn_getNumero(&bufferFecha.mes,"Ingrese mes en números \n","Numero invalido \n",1,12,2)==0
-				&& utn_getNumero(&bufferFecha.año,"Ingrese año (4 numeros) \n","Numero invalido \n",MIN_AÑO_REPA,MAX_AÑO_REPA,2)==0)
+		else if (utn_getNumero(&bufferFecha.dia, "Ingrese dia en números \n",
+				"Numero invalido \n", 1, 31, 2) == 0
+				&& utn_getNumero(&bufferFecha.mes, "Ingrese mes en números \n",
+						"Numero invalido \n", 1, 12, 2) == 0
+				&& utn_getNumero(&bufferFecha.año, "Ingrese año (4 numeros) \n",
+						"Numero invalido \n", MIN_AÑO_REPA, MAX_AÑO_REPA, 2)
+						== 0)
 
-		{
-
+						{
 
 			bufferFecha.isEmpty = 0;
 
@@ -497,7 +499,8 @@ int servicio_buscarId(Servicio *array, int length, int id, int *indice) {
 	return ret;
 }
 
-int servicio_altaForzada(Servicio *array, int length, char *descripcion, float precio, int *pId) {
+int servicio_altaForzada(Servicio *array, int length, char *descripcion,
+		float precio, int *pId) {
 
 	Servicio bufferServ;
 
@@ -505,7 +508,7 @@ int servicio_altaForzada(Servicio *array, int length, char *descripcion, float p
 
 	int ret = -1;
 
-	if (array != NULL && length > 0 && pId != NULL && descripcion!=NULL) {
+	if (array != NULL && length > 0 && pId != NULL && descripcion != NULL) {
 
 		servicio_emptyIndex(array, length, &indice);
 
