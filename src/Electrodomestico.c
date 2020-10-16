@@ -19,7 +19,7 @@ int electro_imprimir(Electrodomestico *pElectro) {
 
 	if (pElectro != NULL && pElectro->isEmpty == 0) {
 
-		printf("Electrodomestico id %d Serie: %d, año: %d Id marca: %d\n ",
+		printf("Electrodomestico id %d Serie: %d, año: %d Id marca: %d\n",
 				pElectro->id, pElectro->serie, pElectro->año, pElectro->idMarca);
 
 		ret = 0;
@@ -41,7 +41,7 @@ int marca_imprimir(Marca *pMarca) {
 
 	if (pMarca != NULL && pMarca->isEmpty == 0) {
 
-		printf("Marca id %d: %s\n ",
+		printf("Marca id %d: %s\n",
 				pMarca->id, pMarca->descripcion);
 
 		ret = 0;

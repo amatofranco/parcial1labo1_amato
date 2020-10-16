@@ -23,16 +23,6 @@ void mensajeError();
  */
 void mensajeExito();
 
-/**
- * Imprime mensaje de array vacío
- */
-void arrayVacio();
-
-/**
- * Imprime mensaje de array completo
- */
-
-void arrayCompleto();
 
 int main(void) {
 
@@ -90,11 +80,11 @@ int main(void) {
 
 	do {
 
-		ret = utn_getNumero(&opcion, "Seleccione una opción \n "
-				"1- Alta Electrodomestico \n "
-				"2- Modificar Electrodomestico \n "
-				"3- Baja Electrodomestico \n "
-				"4- Imprimir Listado Electrodomesticos \n "
+		ret = utn_getNumero(&opcion, "Seleccione una opción: \n"
+				"1- Alta Electrodomestico \n"
+				"2- Modificar Electrodomestico \n"
+				"3- Baja Electrodomestico \n"
+				"4- Imprimir Listado Electrodomesticos \n"
 				"5- Imprimir Listado Marcas \n"
 				"6- Imprimir Listado Servicios \n"
 				"7- Alta Reparacion \n"
@@ -255,22 +245,6 @@ void mensajeError() {
 void mensajeExito() {
 
 	char mensaje[] = "Operación exitosa \n";
-
-	printf("%s", mensaje);
-
-}
-
-void arrayVacio() {
-
-	char mensaje[] = "No se registra ninguna carga \n";
-
-	printf("%s", mensaje);
-
-}
-
-void arrayCompleto() {
-
-	char mensaje[] = "No hay mas lugar para realizar una carga \n";
 
 	printf("%s", mensaje);
 
