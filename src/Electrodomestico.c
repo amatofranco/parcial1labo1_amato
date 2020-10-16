@@ -355,12 +355,12 @@ int electro_validarSerie (Electrodomestico *array, int length,int *serie){
 
 	int serieAux;
 
-	utn_getNumero(&serieAux, "Ingrese el codigo de serie correspondiente al Electrodomestico","Ingreso inválido",1,2000000,2);
+	utn_getNumero(&serieAux, "Ingrese el codigo de serie correspondiente al Electrodomestico \n","Ingreso inválido \n",1,2000000,2);
 
 	for (int i=0; i < length; i++){
 
 
-		if (array[i].serie == serieAux){
+		if (array[i].serie == serieAux && array[i].isEmpty==0){
 
 			ret = 0;
 			*serie = serieAux;

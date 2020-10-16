@@ -63,15 +63,17 @@ int main(void) {
 
 	electro_iniciar(arrayElectro, QTY_ELECTRODOMESTICOS);
 	marca_iniciar(arrayMarcas, QTY_MARCAS);
-    reparacion_iniciar(arrayReparaciones, QTY_REPARACIONES);
+	reparacion_iniciar(arrayReparaciones, QTY_REPARACIONES);
 	servicio_iniciar(arrayServicios, QTY_SERVICIOS);
 	fecha_iniciar(arrayFechas, QTY_FECHAS);
 
+	electro_altaForzada(arrayElectro, QTY_ELECTRODOMESTICOS, &idElectro, 123,
+			2005, 1001);
+	electro_altaForzada(arrayElectro, QTY_ELECTRODOMESTICOS, &idElectro, 204512,
+			2005, 1001);
 
-	electro_altaForzada(arrayElectro, QTY_ELECTRODOMESTICOS, &idElectro, 124325,2005, 1001);
-	electro_altaForzada(arrayElectro, QTY_ELECTRODOMESTICOS, &idElectro, 204512,2005, 1001);
-
-	electro_altaForzada(arrayElectro, QTY_ELECTRODOMESTICOS, &idElectro, 200214,1990, 1002);
+	electro_altaForzada(arrayElectro, QTY_ELECTRODOMESTICOS, &idElectro, 200214,
+			1990, 1002);
 
 	marca_altaForzada(arrayMarcas, QTY_MARCAS, &idMarca, "Whirpool");
 	marca_altaForzada(arrayMarcas, QTY_MARCAS, &idMarca, "Sony");
@@ -79,12 +81,14 @@ int main(void) {
 	marca_altaForzada(arrayMarcas, QTY_MARCAS, &idMarca, "Gafa");
 	marca_altaForzada(arrayMarcas, QTY_MARCAS, &idMarca, "Philips");
 
-
-	servicio_altaForzada(arrayServicios,QTY_SERVICIOS,"Garantía",250,&idServ);
-	servicio_altaForzada(arrayServicios,QTY_SERVICIOS,"Mantenimiento",500,&idServ);
-	servicio_altaForzada(arrayServicios,QTY_SERVICIOS,"Repuestos",400,&idServ);
-	servicio_altaForzada(arrayServicios,QTY_SERVICIOS,"Refaccion",600,&idServ);
-
+	servicio_altaForzada(arrayServicios, QTY_SERVICIOS, "Garantía", 250,
+			&idServ);
+	servicio_altaForzada(arrayServicios, QTY_SERVICIOS, "Mantenimiento", 500,
+			&idServ);
+	servicio_altaForzada(arrayServicios, QTY_SERVICIOS, "Repuestos", 400,
+			&idServ);
+	servicio_altaForzada(arrayServicios, QTY_SERVICIOS, "Refaccion", 600,
+			&idServ);
 
 	do {
 
@@ -125,7 +129,7 @@ int main(void) {
 
 			case 2:
 
-				electro_imprimirArray(arrayElectro,QTY_ELECTRODOMESTICOS);
+				electro_imprimirArray(arrayElectro, QTY_ELECTRODOMESTICOS);
 
 				if (electro_modificar(arrayElectro, QTY_ELECTRODOMESTICOS)
 						== 0) {
@@ -155,7 +159,7 @@ int main(void) {
 
 			case 4:
 
-				electro_ordenar(arrayElectro,QTY_ELECTRODOMESTICOS);
+				electro_ordenar(arrayElectro, QTY_ELECTRODOMESTICOS);
 
 				if (electro_imprimirArray(arrayElectro,
 				QTY_ELECTRODOMESTICOS) == 0) { //
@@ -178,31 +182,42 @@ int main(void) {
 
 			case 6:
 
-
-				servicio_imprimirArray(arrayServicios,QTY_SERVICIOS);
-
+				servicio_imprimirArray(arrayServicios, QTY_SERVICIOS);
 
 				break;
 
-
-
 			case 7:
 
-				servicio_imprimirArray(arrayServicios,QTY_SERVICIOS);
+				servicio_imprimirArray(arrayServicios, QTY_SERVICIOS);
 
-				utn_getNumero(&idServAux,"Seleccione ID de servicio \n","Ingreso Inválido \n",MIN_IDSERV,MAX_IDSERV,2);
+				if (utn_getNumero(&idServAux, "Seleccione ID de servicio \n",
+					"Ingreso Inválido \n", MIN_IDSERV, MAX_IDSERV, 2) == 0
+					&& servicio_buscarId(arrayServicios, QTY_SERVICIOS,
+					idServAux, &indiceAux) == 0) {
 
-				servicio_buscarId(arrayServicios,QTY_SERVICIOS,idServAux,&indiceAux);
+					electro_imprimirArray(arrayElectro, QTY_ELECTRODOMESTICOS);
 
-				electro_imprimirArray(arrayElectro,QTY_ELECTRODOMESTICOS);
+					if (electro_validarSerie(arrayElectro,QTY_ELECTRODOMESTICOS, &serieAux) == 0) {
 
-				electro_validarSerie(arrayElectro,QTY_ELECTRODOMESTICOS,&serieAux);
+						if (fecha_alta(arrayFechas, QTY_FECHAS, &fechaAux)== 0
+							&& reparacion_alta(arrayReparaciones, QTY_REPARACIONES,
+								&idRepa, idServAux, serieAux, fechaAux)==0) {
+							mensajeExito();
 
-				if (fecha_alta(arrayFechas, QTY_FECHAS, &fechaAux) == 0) {
+						} else {
+							mensajeError();
+						}
 
-					reparacion_alta(arrayReparaciones,QTY_REPARACIONES,&idRepa,idServAux,serieAux,fechaAux);
+					}
+
+					else {
+
+						printf("El codigo de serie no existe \n");
+					}
+
 				} else {
-					mensajeError();
+
+					printf("El ID ingresado no existe \n");
 				}
 
 				break;

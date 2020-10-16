@@ -13,6 +13,8 @@
 #define MIN_IDSERV 20000
 #define MAX_IDSERV 200000
 #define MAX_NOMBRE 51
+#define MIN_AÑO_REPA 2020
+#define MAX_AÑO_REPA 2050
 
 
 

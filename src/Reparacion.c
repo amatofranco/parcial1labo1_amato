@@ -420,7 +420,7 @@ int fecha_alta(Fecha *array, int length, Fecha *pFecha) {
 		else if (
 				utn_getNumero(&bufferFecha.dia,"Ingrese dia en números \n","Numero invalido \n",1,31,2)==0
 				&& utn_getNumero(&bufferFecha.mes,"Ingrese mes en números \n","Numero invalido \n",1,12,2)==0
-				&& utn_getNumero(&bufferFecha.año,"Ingrese año (4 numeros)","Numero invalido \n",2020,2050,2)==0)
+				&& utn_getNumero(&bufferFecha.año,"Ingrese año (4 numeros) \n","Numero invalido \n",MIN_AÑO_REPA,MAX_AÑO_REPA,2)==0)
 
 		{
 
@@ -525,40 +525,3 @@ int servicio_altaForzada(Servicio *array, int length, char *descripcion, float p
 	return ret;
 
 }
-
-
-/*
-int reparacion_altaForzada(Reparacion *array, int length, int *pId,
-		char *serie, int idServicio, int fecha) {
-
-	Reparacion bufferRepa;
-
-	int indice = -1;
-
-	int ret = -1;
-
-	if (array != NULL
-			&& length > 0&& pId != NULL &&serie!=NULL) {
-
-		reparacion_emptyIndex(array, length, &indice);
-
-		strncpy(bufferRepa.serie, serie, MAX_SERIE);
-		bufferRepa.idServicio = idServicio;
-		bufferRepa.fecha = fecha;
-
-		bufferRepa.id = *pId;
-
-		bufferRepa.isEmpty = 0;
-
-		array[indice] = bufferRepa;
-
-		(*pId)++;
-
-		ret = 0;
-
-	}
-
-	return ret;
-
-}
-*/
