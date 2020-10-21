@@ -5,29 +5,26 @@
 #include "Electrodomestico.h"
 #include "utn_inputs.h"
 
-
-
 /**
  * Imprime todos los datos de una Electrodomestico
  * @param puntero a estructura Electrodomestico a imprimir
  * @return 0 Éxito -1 Error
  */
 
-int electro_imprimir(Electrodomestico *pElectro) {
+int electro_imprimir(Electrodomestico *pElectro, char *descripcion) {
 
 	int ret = -1;
 
 	if (pElectro != NULL && pElectro->isEmpty == 0) {
 
-		printf("Electrodomestico id %d Serie: %d, año: %d Id marca: %d\n",
-				pElectro->id, pElectro->serie, pElectro->año, pElectro->idMarca);
+		printf("%10d | %20d  | %20s | %20d |\n", pElectro->id, pElectro->serie,
+				descripcion, pElectro->anio);
 
 		ret = 0;
 
 	}
 	return ret;
 }
-
 
 /**
  * Imprime todos los datos de una Marca
@@ -41,8 +38,7 @@ int marca_imprimir(Marca *pMarca) {
 
 	if (pMarca != NULL && pMarca->isEmpty == 0) {
 
-		printf("Marca id %d: %s\n",
-				pMarca->id, pMarca->descripcion);
+		printf("%10d | %20s  |\n", pMarca->id, pMarca->descripcion);
 
 		ret = 0;
 
@@ -50,15 +46,7 @@ int marca_imprimir(Marca *pMarca) {
 	return ret;
 }
 
-
-
-/** \brief Imprime la lista de Electrodomesticos con sus respectivos datos
- * \param list puntero a array de Electrodomesticos
- * \param len largo del array
- * \return 0 Éxito -1 Error
- *
- */
-int electro_imprimirArray(Electrodomestico *array, int length) {
+int marca_descripcionPorId(char *descripcion, Marca *array, int length, int id) {
 
 	int ret = -1;
 
@@ -66,12 +54,116 @@ int electro_imprimirArray(Electrodomestico *array, int length) {
 
 		for (int i = 0; i < length; i++) {
 
-			if (array[i].isEmpty == 0) {
+			if (array[i].id == id && array[i].isEmpty == 0) {
 
-				electro_imprimir(&array[i]);
+				strncpy(descripcion, array[i].descripcion, MAX_DESC_MARCA);
+
+				ret = 0;
+
+				break;
+
 			}
 
 		}
+	}
+
+	return ret;
+
+}
+
+/** \brief Imprime la lista de Electrodomesticos con sus respectivos datos
+ * \param list puntero a array de Electrodomesticos
+ * \param len largo del array
+ * \return 0 Éxito -1 Error
+ *
+ */
+
+int electro_marcaPorSerie(int *idMarca, Electrodomestico *array, int length,
+		int serie) {
+
+	int ret = -1;
+
+	if (idMarca != NULL && array != NULL) {
+
+		for (int i = 0; i < length; i++) {
+
+			if (array[i].isEmpty == 0 && array[i].serie == serie) {
+
+				*idMarca = array[i].idMarca;
+				ret = 0;
+
+			}
+
+		}
+
+	}
+
+	return ret;
+
+}
+
+int electro_imprimirArray(Electrodomestico *array, int length, Marca *arrayM,
+		int lengthM) {
+
+	int ret = -1;
+
+	char descripcion[MAX_DESC_MARCA];
+
+	if (array != NULL && length > 0) {
+
+		printf(
+				"---------------------------------------------------------------------------------------------\n");
+
+		printf("%10s  %20s   %20s  %20s  \n", "ID", "SERIE", "MARCA", "MODELO");
+
+		for (int i = 0; i < length; i++) {
+
+			if (array[i].isEmpty == 0) {
+
+				marca_descripcionPorId(descripcion, arrayM, lengthM,
+						array[i].idMarca);
+
+				electro_imprimir(&array[i], descripcion);
+			}
+
+		}
+
+		printf(
+				"---------------------------------------------------------------------------------------------\n");
+
+		ret = 0;
+	}
+	return ret;
+}
+
+int electro_imprimirPorId(Electrodomestico *array, int length, Marca *arrayM,
+		int lengthM, int id) {
+
+	int ret = -1;
+
+	char descripcion[MAX_DESC_MARCA];
+
+	if (array != NULL && length > 0) {
+
+		for (int i = 0; i < length; i++) {
+
+			if (array[i].isEmpty == 0 && array[i].id == id) {
+
+				marca_descripcionPorId(descripcion, arrayM, lengthM,
+						array[i].idMarca);
+
+				printf("Se eligió:\n %10s  %20s   %20s  %20s  \n", "ID",
+						"SERIE", "MARCA", "MODELO");
+
+				electro_imprimir(&array[i], descripcion);
+
+				break;
+			}
+
+		}
+
+		printf(
+				"---------------------------------------------------------------------------------------------\n");
 
 		ret = 0;
 	}
@@ -90,6 +182,11 @@ int marca_imprimirArray(Marca *array, int length) {
 
 	if (array != NULL && length > 0) {
 
+		printf(
+				"---------------------------------------------------------------------------------------------\n");
+
+		printf("%10s  %20s \n", "ID", "MARCA");
+
 		for (int i = 0; i < length; i++) {
 
 			if (array[i].isEmpty == 0) {
@@ -99,12 +196,13 @@ int marca_imprimirArray(Marca *array, int length) {
 
 		}
 
+		printf(
+				"---------------------------------------------------------------------------------------------\n");
+
 		ret = 0;
 	}
 	return ret;
 }
-
-
 
 /**
  * Para indicar que todas las posiciones del array Electrodomestico están vacías,
@@ -127,15 +225,6 @@ int electro_iniciar(Electrodomestico *array, int length) {
 	return ret;
 
 }
-
-
-/**
- * Pone la bandera Is Empty en 1 en todas las posiciones
- * del array Marca
- * @param array
- * @param length
- * @return
- */
 
 int marca_iniciar(Marca *array, int length) {
 
@@ -178,35 +267,6 @@ int electro_emptyIndex(Electrodomestico *array, int length, int *indice) {
 
 	return ret;
 }
-
-/**
- * Busca un lugar vacio en el array de Marcas
- * y lo asigna a puntero Indice
- * @param array puntero a array de marcas
- * @param length largo del array
- * @param indice puntero a indice
- * @return
- */
-int marca_emptyIndex(Marca *array, int length, int *indice) {
-
-	int ret = -1;
-
-	if (array != NULL && length > 0) {
-		for (int i = 0; i < length; i++) {
-
-			if (array[i].isEmpty == 1) {
-
-				ret = 0;
-				*indice = i;
-				break;
-
-			}
-		}
-	}
-
-	return ret;
-}
-
 
 /**
  * Verifica si el array Electrodomesticos en su totalidad está vacio
@@ -266,7 +326,8 @@ int marca_emptyArray(Electrodomestico *list, int length) {
  * @return 0 Éxito -1 Error
  */
 
-int electro_alta(Electrodomestico *array, int length, int *pId, int idMarca) {
+int electro_alta(Electrodomestico *arrayE, int lengthE, Marca *arrayM,
+		int lengthM) {
 
 	Electrodomestico bufferElectro;
 
@@ -276,74 +337,35 @@ int electro_alta(Electrodomestico *array, int length, int *pId, int idMarca) {
 
 	int ret = -1;
 
-	if (array != NULL && length > 0 && pId != NULL) {
+	if (arrayE != NULL && lengthE > 0 && arrayM != NULL && lengthM > 0) {
 
-		if (electro_emptyIndex(array, length, &indice) == -1) {
+		if (electro_emptyIndex(arrayE, lengthE, &indice) == -1) {
 
 			printf("%s", arrayCompleto);
 
 		}
 
-		else if (utn_getNumero(&bufferElectro.serie, "Ingrese codigo de serie \n","Ingreso inválido \n",1,MAX_NUMSERIE,2)==0
+		else if (marca_validarId(arrayM, lengthM, &bufferElectro.idMarca)
+				!= 0) {
 
-				        && utn_getNumero(&bufferElectro.año,
-						"Ingrese número correspondiente al año \n",
-						"Número inválido \n", MIN_AÑO, MAX_AÑO, 2) == 0) {
+			printf("El id seleccionado no corresponde a ninguna marca. \n");
+		}
 
-			bufferElectro.idMarca = idMarca;
+		else if (
 
-			bufferElectro.id = *pId;
+		utn_getNumero(&bufferElectro.id, "Ingrese ID del Electrodoméstico \n",
+				"Ingreso inválido \n", MIN_ID, MAX_ID, 2) == 0
+				&& utn_getNumero(&bufferElectro.serie,
+						"Ingrese codigo de serie del Electrodoméstico\n",
+						"Ingreso inválido \n", 1,
+						MAX_NUMSERIE, 2) == 0
+				&& utn_getNumero(&bufferElectro.anio,
+						"Ingrese número correspondiente al modelo (año) \n",
+						"Número inválido \n", MIN_ANIO, MAX_ANIO, 2) == 0) {
 
 			bufferElectro.isEmpty = 0;
 
-			array[indice] = bufferElectro;
-
-			(*pId)++;
-
-			ret = 0;
-
-		}
-	}
-
-	return ret;
-}
-
-/**
- * Agrega una Marca al Array de Marcas
- * @param array
- * @param length
- * @param pId
- * @return
- */
-int marca_alta(Marca *array, int length, int *pId) {
-
-	Marca bufferMarca;
-
-	int indice;
-
-	char arrayCompleto[] = "No hay más espacio para realizar una carga \n";
-
-	int ret = -1;
-
-	if (array != NULL && length > 0 && pId != NULL) {
-
-		if (marca_emptyIndex(array, length, &indice) == -1) {
-
-			printf("%s", arrayCompleto);
-
-		}
-
-		else if (utn_getTexto(bufferMarca.descripcion,
-				"Ingrese descripcion", "Ingreso invalido",1,MAX_DESCRIPCION,2)==0) {
-
-			bufferMarca.id = *pId;
-
-			bufferMarca.isEmpty = 0;
-
-			array[indice] = bufferMarca
-					;
-
-			(*pId)++;
+			arrayE[indice] = bufferElectro;
 
 			ret = 0;
 
@@ -362,7 +384,8 @@ int marca_alta(Marca *array, int length, int *pId) {
  * @param puntero a indice
  * @return posición del array
  */
-int electro_buscarId(Electrodomestico *array, int length, int id, int *resultado) {
+int electro_buscarId(Electrodomestico *array, int length, int id,
+		int *resultado) {
 
 	int ret = -1;
 
@@ -376,7 +399,6 @@ int electro_buscarId(Electrodomestico *array, int length, int id, int *resultado
 
 				*resultado = i;
 
-				electro_imprimir(&array[i]);
 				break;
 
 			}
@@ -387,7 +409,6 @@ int electro_buscarId(Electrodomestico *array, int length, int id, int *resultado
 	return ret;
 }
 
-
 /**
  * Verifica si el numero de serie ingresado se encuentra
  * en alguna posicion del array Electrodomesticos
@@ -396,35 +417,43 @@ int electro_buscarId(Electrodomestico *array, int length, int id, int *resultado
  * @param serie Puntero a Numero de serie encontrado
  * @return 0 Éxito -1 Error
  */
-int electro_validarSerie (Electrodomestico *array, int length,int *serie){
+int electro_validarSerie(Electrodomestico *array, int length, Marca *arrayM,
+		int lengthM, int *serie) {
 
 	int ret = -1;
 
 	int serieAux;
 
-	utn_getNumero(&serieAux, "Ingrese el codigo de serie correspondiente al Electrodomestico \n","Ingreso inválido \n",1,2000000,2);
+	int flag = 0;
 
-	for (int i=0; i < length; i++){
+	if (utn_getNumero(&serieAux,
+			"Ingrese el número de SERIE correspondiente al Electrodomestico \n",
+			"Ingreso inválido \n", 1, MAX_NUMSERIE, 2) == 0) {
 
+		for (int i = 0; i < length; i++) {
 
-		if (array[i].serie == serieAux && array[i].isEmpty==0){
+			if (array[i].serie == serieAux && array[i].isEmpty == 0) {
 
-			ret = 0;
-			*serie = serieAux;
+				electro_imprimirPorId(array, length, arrayM, lengthM,
+						array[i].id);
 
+				ret = 0;
+				flag =1;
+				*serie = serieAux;
+				break;
+
+			}
 		}
 	}
 
+	if (flag==0) {
 
-
-
+		printf("El número de SERIE ingresado no corresponde a ningún Electrodoméstico \n");
+	}
 
 	return ret;
 
-
-
 }
-
 
 /**
  * Busca un id en el Array de Marca
@@ -434,18 +463,17 @@ int electro_validarSerie (Electrodomestico *array, int length,int *serie){
  * @param id puntero a Id encontrado
  * @return 0 Éxito -1 Error
  */
-int marca_validarId (Marca *array,int length,int *id){
+int marca_validarId(Marca *array, int length, int *id) {
 
 	int ret = -1;
 
 	int idAux;
 	int indice;
 
+	if (utn_getNumero(&idAux, "Ingrese el ID de la Marca \n",
+			"Ingreso Invalido \n", MIN_IDMARCA, MAX_IDMARCA, 2) == 0) {
 
-	if (utn_getNumero(&idAux, "Ingrese el ID de la Marca \n","Ingreso Invalido \n",MIN_IDMARCA,MAX_IDMARCA,2)==0){
-
-
-		if (marca_buscarId(array, length,idAux,&indice)==0){
+		if (marca_buscarId(array, length, idAux, &indice) == 0) {
 
 			ret = 0;
 			*id = idAux;
@@ -454,12 +482,9 @@ int marca_validarId (Marca *array,int length,int *id){
 
 	}
 
-
 	return ret;
 
-
 }
-
 
 /**
  * Busca un id en el array de Marca y devuelve la posicion
@@ -484,7 +509,13 @@ int marca_buscarId(Marca *array, int length, int id, int *indice) {
 
 				*indice = i;
 
+				printf("Se eligió:\n %10s  %20s \n", "ID", "MARCA");
+
 				marca_imprimir(&array[i]);
+
+				printf(
+						"---------------------------------------------------------------------------------------------\n");
+
 				break;
 
 			}
@@ -502,39 +533,41 @@ int marca_buscarId(Marca *array, int length, int id, int *indice) {
  * @param len longitud del array
  * @return 0 Éxito -1 Error
  */
-int electro_modificar(Electrodomestico *array, int length) {
+int electro_modificar(Electrodomestico *array, int length, Marca *arrayM,
+		int lengthM) {
 
 	int ret = -1;
 	int indice = -1;
 	int opcion;
 	char idError[] = "No existe el Id seleccionado \n";
 
-    int serie;
+	int serie;
 	int año;
 	int id;
 
-	if (electro_emptyArray(array, length)) {
+	if (array != NULL && length > 0
+			&& utn_getNumero(&id,
+					"Ingrese el Id del Electrodomestico a modificar \n",
+					"Número inválido \n", 0, 1000, 2) == 0) {
 
-		printf("No se registra ninguna carga \n");
-	}
+		electro_buscarId(array, QTY_ELECTRODOMESTICOS, id, &indice);
 
-	else if (array != NULL && length > 0
-			&& utn_getNumero(&id, "Ingrese el Id del Electrodomestico a modificar \n",
-			"Número inválido \n", 0, 1000, 2) == 0) {
+		if (indice != -1
 
-		     electro_buscarId(array, QTY_ELECTRODOMESTICOS, id, &indice);
+		&& electro_imprimirPorId(array, length, arrayM, lengthM, id) == 0
 
-		     if (indice != -1 && utn_getNumero(&opcion,
-				"Ingrese el número correspondiente a la opción: "
+				&& utn_getNumero(&opcion,
+						"Ingrese el número correspondiente a la opción: "
 								"\n 1-Modificar SERIE "
-								"\n 2-Modificar AÑO \n",
-								"Opción inválida \n", 1, 2, 2) == 0) {
+								"\n 2-Modificar AÑO \n", "Opción inválida \n",
+						1, 2, 2) == 0) {
 
 			switch (opcion) {
 
 			case 1:
 
-				if (utn_getNumero(&serie,"Ingrese nuevo número de Serie \n","Ingreso inválido \n",1,MAX_NUMSERIE,2)==0) {
+				if (utn_getNumero(&serie, "Ingrese nuevo número de Serie \n",
+						"Ingreso inválido \n", 1, MAX_NUMSERIE, 2) == 0) {
 
 					array[indice].serie = serie;
 
@@ -546,10 +579,9 @@ int electro_modificar(Electrodomestico *array, int length) {
 			case 2:
 
 				if (utn_getNumero(&año, "Ingrese AÑO\n",
-						"Número fuera de rango", MIN_AÑO, MAX_AÑO, 2)
-						== 0) {
+						"Número fuera de rango", MIN_ANIO, MAX_ANIO, 2) == 0) {
 
-					array[indice].año = año;
+					array[indice].anio = año;
 
 					ret = 0;
 				}
@@ -574,7 +606,8 @@ int electro_modificar(Electrodomestico *array, int length) {
  * @return
  */
 
-int electro_baja(Electrodomestico *array, int length) {
+int electro_baja(Electrodomestico *array, int length, Marca *arrayM,
+		int lengthM) {
 
 	int option = 2; // Cancelar
 
@@ -586,17 +619,21 @@ int electro_baja(Electrodomestico *array, int length) {
 
 	char cancel[] = "Se canceló la operación \n";
 
-	char idError[] = "No existe el id seleccionado \n";
+	char idError[] = "No existe el Id seleccionado \n";
 
 	if (array != NULL && length > 0
-			&& utn_getNumero(&id, "Ingrese el Id a buscar \n",
+			&& utn_getNumero(&id,
+					"Ingrese el Id del Electrodoméstico a borrar \n",
 					"Número inválido \n", MIN_ID, MAX_ID, 2) == 0) {
 
 		electro_buscarId(array, QTY_ELECTRODOMESTICOS, id, &indice);
 
 		if (indice != -1
-				&& utn_getNumero(&option, "Seleccione: 1 para borrar - "
-						"2 para cancelar operación \n", "Opción inválida \n", 1,
+
+		&& electro_imprimirPorId(array, length, arrayM, lengthM, id) == 0
+
+				&& utn_getNumero(&option, "Ingrese: 1 para BORRAR - "
+						"2 para CANCELAR OPERACIÓN \n", "Opción inválida \n", 1,
 						2, 2) == 0 && option == 1) {
 
 			array[indice].isEmpty = 1;
@@ -627,41 +664,37 @@ int electro_baja(Electrodomestico *array, int length) {
  *
  */
 
-
 int electro_ordenar(Electrodomestico *array, int length) {
 
 	int ret = -1;
 	int flagSwap;
 	Electrodomestico buffer;
 
-		do {
+	do {
 
-			flagSwap = 0;
+		flagSwap = 0;
 
-			for (int i = 0; i < length - 1; i++) {
+		for (int i = 0; i < length - 1; i++) {
 
-					if (
-							array[i].año > array[i + 1].año
-							|| (array[i].año == array[i + 1].año
+			if (array[i].anio > array[i + 1].anio
+					|| (array[i].anio == array[i + 1].anio
 							&& array[i].serie > array[i + 1].serie)) {
 
-						flagSwap = 1;
-						buffer = array[i];
-						array[i] = array[i + 1];
-						array[i + 1] = buffer;
-					}
+				flagSwap = 1;
+				buffer = array[i];
+				array[i] = array[i + 1];
+				array[i + 1] = buffer;
 			}
+		}
 
-			length--;
+		length--;
 
-		} while (flagSwap == 1);
+	} while (flagSwap == 1);
 
-		ret = 0;
-
+	ret = 0;
 
 	return ret;
 }
-
 
 /**
  * Inserta un Electrodomestico en el array Electrodomesticos
@@ -676,31 +709,26 @@ int electro_ordenar(Electrodomestico *array, int length) {
  * @return 0 Éxito -1 Error
  */
 
-int electro_altaForzada(Electrodomestico *array, int length, int *pId, int serie,
-		int año, int idMarca) {
-
-	Electrodomestico bufferElectro;
-
-	int indice = -1;
+int electro_altaForzada(Electrodomestico *array, int length) {
 
 	int ret = -1;
 
-	if (array != NULL && length > 0&& pId != NULL) {
+	if (array != NULL && length > 0) {
 
-		electro_emptyIndex(array, length, &indice);
+		int serie[3] = { 1400, 2345, 1234 };
+		int idMarca[3] = { 1000, 1001, 1002 };
+		int anio[3] = { 2005, 1990, 1990 };
+		int id[3] = { 1, 15, 35 };
 
-		bufferElectro.serie = serie;
-		bufferElectro.año = año;
+		for (int i = 0; i < 3; i++) {
 
-		bufferElectro.id = *pId;
+			array[i].serie = serie[i];
+			array[i].idMarca = idMarca[i];
+			array[i].anio = anio[i];
+			array[i].id = id[i];
+			array[i].isEmpty = 0;
 
-		bufferElectro.idMarca = idMarca;
-
-		bufferElectro.isEmpty = 0;
-
-		array[indice] = bufferElectro;
-
-		(*pId)++;
+		}
 
 		ret = 0;
 
@@ -710,40 +738,28 @@ int electro_altaForzada(Electrodomestico *array, int length, int *pId, int serie
 
 }
 
-/**
- * Introduce una Marca en el array de Marcas con los datos ya cargados
- * @param array Puntero a array de marcas
- * @param length Largo del array
- * @param pId Puntero a Id (Autoincremental)
- * @param descripcion Descripcion de la Marca
- * @return
- */
-int marca_altaForzada(Marca *array, int length, int *pId, char *descripcion) {
-
-	Marca bufferMarca;
-
-	int indice = -1;
+int marca_hardcodeo(Marca *array, int length, int *id) {
 
 	int ret = -1;
 
-	if (array != NULL && length > 0 && pId != NULL && descripcion!=NULL) {
+	if (array != NULL && length > 0) {
 
-		marca_emptyIndex(array, length, &indice);
+		char descripcion[5][MAX_DESC_MARCA] = { "Wirpool", "Sony", "Liliana",
+				"Gafa", "Philips" };
 
-		strncpy(bufferMarca.descripcion, descripcion, MAX_DESCRIPCION);
+		for (int i = 0; i < 5; i++) {
 
-		bufferMarca.id = *pId;
-		bufferMarca.isEmpty = 0;
-		array[indice] = bufferMarca;
+			strncpy(array[i].descripcion, descripcion[i], MAX_DESC_MARCA);
+			array[i].id = *id;
+			array[i].isEmpty = 0;
+			(*id)++;
 
-		(*pId)++;
+		}
 
 		ret = 0;
 
 	}
 
 	return ret;
-
 }
-
 

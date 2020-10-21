@@ -12,71 +12,47 @@
 #include "utn_inputs.h"
 #include "Electrodomestico.h"
 #include "Reparacion.h"
+#include "Cliente.h"
+#include "Informes.h"
 
-/**
- * Imprime mensaje error
- */
+// Imprime mensaje error
+
 void mensajeError();
 
-/**
- * Imprime mensaje de operación exitosa
- */
+// Imprime mensaje de operación exitosa
+
 void mensajeExito();
 
+// Imprime mensaje de array vacío
+void emptyArray();
 
 int main(void) {
 
 	Electrodomestico arrayElectro[QTY_ELECTRODOMESTICOS];
-
 	Marca arrayMarcas[QTY_MARCAS];
-
 	Reparacion arrayReparaciones[QTY_REPARACIONES];
-
 	Servicio arrayServicios[QTY_SERVICIOS];
+	Cliente arrayClientes[QTY_CLIENTES];
 
-	Fecha arrayFechas[QTY_FECHAS];
-
-	int idElectro = MIN_ID;
 	int idMarca = MIN_IDMARCA;
 	int idRepa = MIN_ID;
 	int idServ = MIN_IDSERV;
+	int idCliente = MIN_ID_CLIENTE;
 	int opcion;
 	int ret;
-	int idAux;
-	int indiceAux;
-	int idServAux;
-	int serieAux;
-
-	Fecha fechaAux;
 
 	electro_iniciar(arrayElectro, QTY_ELECTRODOMESTICOS);
 	marca_iniciar(arrayMarcas, QTY_MARCAS);
-	reparacion_iniciar(arrayReparaciones, QTY_REPARACIONES);
 	servicio_iniciar(arrayServicios, QTY_SERVICIOS);
-	fecha_iniciar(arrayFechas, QTY_FECHAS);
+	cliente_iniciar(arrayClientes, QTY_CLIENTES);
+	reparacion_iniciar(arrayReparaciones, QTY_REPARACIONES);
 
-	electro_altaForzada(arrayElectro, QTY_ELECTRODOMESTICOS, &idElectro, 123,
-			2005, 1001);
-	electro_altaForzada(arrayElectro, QTY_ELECTRODOMESTICOS, &idElectro, 204512,
-			2005, 1001);
+	marca_hardcodeo(arrayMarcas, QTY_MARCAS, &idMarca);
+	servicio_hardcodeo(arrayServicios, QTY_SERVICIOS, &idServ);
+	cliente_hardcodeo(arrayClientes, QTY_CLIENTES, &idCliente);
 
-	electro_altaForzada(arrayElectro, QTY_ELECTRODOMESTICOS, &idElectro, 200214,
-			1990, 1002);
-
-	marca_altaForzada(arrayMarcas, QTY_MARCAS, &idMarca, "Whirpool");
-	marca_altaForzada(arrayMarcas, QTY_MARCAS, &idMarca, "Sony");
-	marca_altaForzada(arrayMarcas, QTY_MARCAS, &idMarca, "Liliana");
-	marca_altaForzada(arrayMarcas, QTY_MARCAS, &idMarca, "Gafa");
-	marca_altaForzada(arrayMarcas, QTY_MARCAS, &idMarca, "Philips");
-
-	servicio_altaForzada(arrayServicios, QTY_SERVICIOS, "Garantía", 250,
-			&idServ);
-	servicio_altaForzada(arrayServicios, QTY_SERVICIOS, "Mantenimiento", 500,
-			&idServ);
-	servicio_altaForzada(arrayServicios, QTY_SERVICIOS, "Repuestos", 400,
-			&idServ);
-	servicio_altaForzada(arrayServicios, QTY_SERVICIOS, "Refaccion", 600,
-			&idServ);
+	//electro_altaForzada(arrayElectro, QTY_ELECTRODOMESTICOS);
+	//reparacion_altaForzada(arrayReparaciones, QTY_REPARACIONES, &idRepa);
 
 	do {
 
@@ -87,9 +63,14 @@ int main(void) {
 				"4- Imprimir Listado Electrodomesticos \n"
 				"5- Imprimir Listado Marcas \n"
 				"6- Imprimir Listado Servicios \n"
-				"7- Alta Reparacion \n"
-				"8- Imprimir Listado Reparaciones \n"
-				"9- Salir \n", "Opción no válida  \n", 1, 10, 2);
+				"7- Imprimir Listado Clientes \n"
+				"8- Alta Reparacion \n"
+				"9- Imprimir Listado Reparaciones \n"
+				"10- Informar Electrodomésticos por Marca \n"
+				"11- Informar Reparaciones por Servicio \n"
+				"12 -Informar Cantidad por Servicio \n"
+				"13- Informar Cantidad Total por Servicio \n"
+				"14- Salir \n", "Opción no válida  \n", 1, 14, 2);
 
 		if (ret == 0) {
 
@@ -99,67 +80,86 @@ int main(void) {
 
 				marca_imprimirArray(arrayMarcas, QTY_MARCAS);
 
-				if (marca_validarId(arrayMarcas, QTY_MARCAS, &idAux) == 0) {
+				if (electro_alta(arrayElectro, QTY_ELECTRODOMESTICOS,
+						arrayMarcas, QTY_MARCAS) == 0) {
+					mensajeExito();
+				} else {
+					mensajeError();
+				}
+				break;
 
-					if (electro_alta(arrayElectro, QTY_ELECTRODOMESTICOS,
-							&idElectro, idAux) == 0) {
+			case 2:
+
+				if (!electro_emptyArray(arrayElectro, QTY_ELECTRODOMESTICOS)) {
+
+					electro_imprimirArray(arrayElectro, QTY_ELECTRODOMESTICOS,
+							arrayMarcas, QTY_MARCAS);
+
+					if (electro_modificar(arrayElectro, QTY_ELECTRODOMESTICOS,
+							arrayMarcas, QTY_MARCAS) == 0) {
+
 						mensajeExito();
-					} else {
+					}
+
+					else {
+
 						mensajeError();
 					}
 				}
 
 				else {
 
-					printf("No existe el ID seleccionado \n");
-				}
-				break;
-
-			case 2:
-
-				electro_imprimirArray(arrayElectro, QTY_ELECTRODOMESTICOS);
-
-				if (electro_modificar(arrayElectro, QTY_ELECTRODOMESTICOS)
-						== 0) {
-
-					mensajeExito();
-				}
-
-				else {
-
-					mensajeError();
+					emptyArray();
 				}
 
 				break;
 
 			case 3:
 
-				if (electro_baja(arrayElectro, QTY_ELECTRODOMESTICOS) == 0) {
+				if (!electro_emptyArray(arrayElectro, QTY_ELECTRODOMESTICOS)) {
 
-					mensajeExito();
+					electro_imprimirArray(arrayElectro, QTY_ELECTRODOMESTICOS,
+							arrayMarcas, QTY_MARCAS);
+
+					if (electro_baja(arrayElectro, QTY_ELECTRODOMESTICOS,
+							arrayMarcas, QTY_MARCAS) == 0) {
+
+						mensajeExito();
+					}
+
+					else {
+
+						mensajeError();
+					}
 				}
 
 				else {
-
-					mensajeError();
+					emptyArray();
 				}
+
 				break;
 
 			case 4:
 
-				electro_ordenar(arrayElectro, QTY_ELECTRODOMESTICOS);
+				if (!electro_emptyArray(arrayElectro, QTY_ELECTRODOMESTICOS)) {
 
-				if (electro_imprimirArray(arrayElectro,
-				QTY_ELECTRODOMESTICOS) == 0) { //
+					electro_ordenar(arrayElectro, QTY_ELECTRODOMESTICOS);
 
-					mensajeExito();
+					if (electro_imprimirArray(arrayElectro,
+					QTY_ELECTRODOMESTICOS, arrayMarcas, QTY_MARCAS) == 0) { //
+
+						mensajeExito();
+					}
+
+					else {
+
+						mensajeError();
+					}
 				}
 
 				else {
-
-					mensajeError();
+					emptyArray();
 				}
-
 				break;
 
 			case 5:
@@ -176,59 +176,112 @@ int main(void) {
 
 			case 7:
 
-				servicio_imprimirArray(arrayServicios, QTY_SERVICIOS);
-
-				if (utn_getNumero(&idServAux, "Seleccione ID de servicio \n",
-					"Ingreso Inválido \n", MIN_IDSERV, MAX_IDSERV, 2) == 0
-					&& servicio_buscarId(arrayServicios, QTY_SERVICIOS,
-					idServAux, &indiceAux) == 0) {
-
-					electro_imprimirArray(arrayElectro, QTY_ELECTRODOMESTICOS);
-
-					if (electro_validarSerie(arrayElectro,QTY_ELECTRODOMESTICOS, &serieAux) == 0) {
-
-						if (fecha_alta(arrayFechas, QTY_FECHAS, &fechaAux)== 0
-							&& reparacion_alta(arrayReparaciones, QTY_REPARACIONES,
-								&idRepa, idServAux, serieAux, fechaAux)==0) {
-							mensajeExito();
-
-						} else {
-							mensajeError();
-						}
-
-					}
-
-					else {
-
-						printf("El codigo de serie no existe \n");
-					}
-
-				} else {
-
-					printf("El ID ingresado no existe \n");
-				}
-
+				cliente_imprimirArray(arrayClientes, QTY_CLIENTES);
 				break;
 
 			case 8:
 
-				if (reparacion_imprimirArray(arrayReparaciones,
-				QTY_REPARACIONES) == 0) {
+				if (!electro_emptyArray(arrayElectro, QTY_ELECTRODOMESTICOS)) {
+
+					if (reparacion_alta(arrayReparaciones, QTY_REPARACIONES,
+							arrayClientes, QTY_CLIENTES, arrayServicios,
+							QTY_SERVICIOS, arrayElectro, QTY_ELECTRODOMESTICOS,
+							arrayMarcas, QTY_MARCAS, &idRepa) == 0) {
+
+						mensajeExito();
+
+					}
+
+					else {
+						mensajeError();
+					}
+				}
+
+				printf("Aún no se registran cargas de Electrodomésticos. \n");
+
+				break;
+
+			case 9:
+
+				if (!reparacion_emptyArray(arrayReparaciones,
+				QTY_REPARACIONES)) {
+
+					if (reparacion_imprimirArray(arrayReparaciones,
+							QTY_REPARACIONES, arrayElectro,
+							QTY_ELECTRODOMESTICOS, arrayMarcas, QTY_MARCAS,
+							arrayServicios, QTY_SERVICIOS, arrayClientes,
+							QTY_CLIENTES) == 0) {
+						mensajeExito();
+					} else {
+						mensajeError();
+					}
+				}
+
+				else {
+
+					emptyArray();
+				}
+				break;
+
+			case 10:
+
+				if (informarPorMarca(arrayElectro, QTY_ELECTRODOMESTICOS,
+						arrayMarcas, QTY_MARCAS) == 0) {
+
+					mensajeExito();
+				} else {
+					mensajeError();
+
+				}
+
+				break;
+
+			case 11:
+				if (informarPorServicio(arrayReparaciones, QTY_REPARACIONES,
+						arrayElectro, QTY_ELECTRODOMESTICOS, arrayMarcas,
+						QTY_MARCAS, arrayServicios, QTY_SERVICIOS,
+						arrayClientes, QTY_CLIENTES) == 0) {
 					mensajeExito();
 				} else {
 					mensajeError();
 				}
 				break;
 
-			case 9:
-				printf("Saliendo del programa");
+			case 12:
+
+				if (informarCantidadPorServicio(arrayReparaciones,
+						QTY_REPARACIONES, arrayElectro, QTY_ELECTRODOMESTICOS,
+						arrayMarcas,
+						QTY_MARCAS, arrayServicios, QTY_SERVICIOS,
+						arrayClientes, QTY_CLIENTES) == 0) {
+					mensajeExito();
+				} else {
+					mensajeError();
+				}
+				break;
+
+			case 13:
+
+				if (informarCantidadServicios(arrayReparaciones,
+						QTY_REPARACIONES, arrayElectro, QTY_ELECTRODOMESTICOS,
+						arrayMarcas,
+						QTY_MARCAS, arrayServicios, QTY_SERVICIOS,
+						arrayClientes, QTY_CLIENTES) == 0) {
+					mensajeExito();
+				} else {
+					mensajeError();
+				}
+				break;
+
+			case 14:
+				printf("Saliendo del programa \n");
 			}
 
 		} else {
 			mensajeError();
 		}
 
-	} while (opcion != 10);
+	} while (opcion != 14);
 
 	return EXIT_SUCCESS;
 
@@ -236,7 +289,7 @@ int main(void) {
 
 void mensajeError() {
 
-	char mensaje[] = "Se produjo un error. Se redigirá al menú \n";
+	char mensaje[] = "No se pudo completar la operación. Se redigirá al menú \n";
 
 	printf("%s", mensaje);
 
@@ -245,6 +298,14 @@ void mensajeError() {
 void mensajeExito() {
 
 	char mensaje[] = "Operación exitosa \n";
+
+	printf("%s", mensaje);
+
+}
+
+void emptyArray() {
+
+	char mensaje[] = "No se registran cargas. Se redigirá al menú. \n";
 
 	printf("%s", mensaje);
 

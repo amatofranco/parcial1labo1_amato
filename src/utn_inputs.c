@@ -78,6 +78,7 @@ static int esNombre(char *cadena, int limite);
  */
 static int getNombre(char *pResultado);
 
+
 static int getAlfanumerica(char *pResultado);
 
 static int esAlfanumerica(char *cadena, int limite);
@@ -426,6 +427,7 @@ int utn_getNombre(char *pResultado, char *mensaje, char *mensajeError,
 
 		if (getNombre(bufferString) == 0) {
 
+
 			strncpy(pResultado, bufferString, sizeof(bufferString));
 			ret = 0;
 			break;
@@ -660,6 +662,8 @@ int utn_getTexto(char *pResultado, char *mensaje, char *mensajeError, int minimo
 			    && strlen(bufferString)>=minimo
 			    && strlen(bufferString)<=maximo) {
 
+
+				bufferString[0] = toupper(bufferString[0]);
 				strncpy(pResultado, bufferString, maximo);
 				ret = 0;
 				break;

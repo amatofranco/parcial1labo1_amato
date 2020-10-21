@@ -5,6 +5,7 @@
 #include "utn_inputs.h"
 #include "Reparacion.h"
 #include "Electrodomestico.h"
+#include "Cliente.h"
 
 /**
  * Imprime todos los datos de una posicion de Reparacion
@@ -12,17 +13,18 @@
  * @return 0 Éxito -1 Error
  */
 
-int reparacion_imprimir(Reparacion *pReparacion) {
+int reparacion_imprimir(Reparacion *pReparacion, char *marca, char *servicio,
+		char *nombre, char *apellido, float precio) {
 
 	int ret = -1;
 
 	if (pReparacion != NULL && pReparacion->isEmpty == 0) {
 
 		printf(
-				"Reparacion id %d Serie Electrodomestico: %d, Id servicio: %d Fecha: %d / %d / %d \n ",
-				pReparacion->id, pReparacion->serie, pReparacion->idServicio,
-				pReparacion->fecha.dia, pReparacion->fecha.mes,
-				pReparacion->fecha.año);
+				"%5d |%10s, %5s | %20s  | %10s | %10d | %10.2f | %20d / %d / %d\n",
+				pReparacion->id, apellido, nombre, servicio, marca,
+				pReparacion->serie, precio, pReparacion->fecha.dia,
+				pReparacion->fecha.mes, pReparacion->fecha.anio);
 
 		ret = 0;
 
@@ -41,13 +43,114 @@ int servicio_imprimir(Servicio *pServicio) {
 
 	if (pServicio != NULL && pServicio->isEmpty == 0) {
 
-		printf("Servicio id %d Descripcion: %s, Precio: %.2f \n ",
-				pServicio->id, pServicio->descripcion, pServicio->precio);
+		printf("%10d | %20s  | %20.2f|\n", pServicio->id,
+				pServicio->descripcion, pServicio->precio);
 
 		ret = 0;
 
 	}
 	return ret;
+}
+
+int servicio_descripcionPorId(char *descripcion, Servicio *array, int length,
+		int id) {
+
+	int ret = -1;
+
+	if (array != NULL && length > 0) {
+
+		for (int i = 0; i < length; i++) {
+
+			if (array[i].id == id && array[i].isEmpty == 0) {
+
+				strncpy(descripcion, array[i].descripcion, MAX_DESC_SERV);
+
+				ret = 0;
+
+				break;
+
+			}
+
+		}
+	}
+
+	return ret;
+
+}
+
+int servicio_precioPorId(float *precio, Servicio *array, int length, int id) {
+
+	int ret = -1;
+
+	if (array != NULL && length > 0) {
+
+		for (int i = 0; i < length; i++) {
+
+			if (array[i].id == id && array[i].isEmpty == 0) {
+
+				*precio = array[i].precio;
+
+				ret = 0;
+
+				break;
+
+			}
+
+		}
+	}
+
+	return ret;
+
+}
+
+int reparacion_nombreClientePorId(char *nombre, Cliente *array, int length,
+		int id) {
+	int ret = -1;
+
+	if (array != NULL && length > 0) {
+
+		for (int i = 0; i < length; i++) {
+
+			if (array[i].id == id && array[i].isEmpty == 0) {
+
+				strncpy(nombre, array[i].nombre, MAX_NOMRBRE);
+
+				ret = 0;
+
+				break;
+
+			}
+
+		}
+	}
+
+	return ret;
+
+}
+
+int reparacion_apellidoClientePorId(char *apellido, Cliente *array, int length,
+		int id) {
+	int ret = -1;
+
+	if (array != NULL && length > 0) {
+
+		for (int i = 0; i < length; i++) {
+
+			if (array[i].id == id && array[i].isEmpty == 0) {
+
+				strncpy(apellido, array[i].apellido, MAX_APELLIDO);
+
+				ret = 0;
+
+				break;
+
+			}
+
+		}
+	}
+
+	return ret;
+
 }
 
 /**
@@ -62,7 +165,7 @@ int fecha_imprimir(Fecha *pFecha) {
 	if (pFecha != NULL && pFecha->isEmpty == 0) {
 
 		printf("Fecha: %d / %d / %d \n ", pFecha->dia, pFecha->mes,
-				pFecha->año);
+				pFecha->anio);
 
 		ret = 0;
 
@@ -76,59 +179,66 @@ int fecha_imprimir(Fecha *pFecha) {
  * \return 0 Éxito -1 Error
  *
  */
-int reparacion_imprimirArray(Reparacion *array, int length) {
+int reparacion_imprimirArray(Reparacion *array, int lengthR,
+		Electrodomestico *arrayE, int lengthE, Marca *arrayM, int lengthM,
+		Servicio *arrayS, int lengthS, Cliente *arrayC, int lengthC) {
 
 	int ret = -1;
 
-	if (reparacion_emptyArray(array, length)) {
+	int idMarca;
 
-		printf("No hay valores cargados para mostrar \n");
+	char descMarca[MAX_DESC_MARCA];
 
-	}
+	char descServicio[MAX_DESC_SERV];
 
-	else if (array != NULL && length > 0) {
+	char nombre[MAX_NOMRBRE];
 
-		for (int i = 0; i < length; i++) {
+	char apellido[MAX_APELLIDO];
+
+	float precio;
+
+	if (array != NULL && lengthR > 0) {
+
+		printf(
+				"------------------------------------------------------------------------------------------------------------------------------------------\n");
+
+		printf("%5s  %20s  %15s   %10s  %15s   %10s  %20s \n", "ID", "CLIENTE",
+				"SERVICIO", "MARCA", "SERIE", "PRECIO", "FECHA");
+
+		for (int i = 0; i < lengthR; i++) {
 
 			if (array[i].isEmpty == 0) {
 
-				reparacion_imprimir(&array[i]);
+				electro_marcaPorSerie(&idMarca, arrayE, lengthE,
+						array[i].serie);
+
+				marca_descripcionPorId(descMarca, arrayM, lengthM, idMarca);
+
+				servicio_descripcionPorId(descServicio, arrayS, lengthS,
+						array[i].idServicio);
+
+				servicio_precioPorId(&precio, arrayS, lengthS,
+						array[i].idServicio);
+
+				reparacion_nombreClientePorId(nombre, arrayC, lengthC,
+						array[i].idCliente);
+				reparacion_apellidoClientePorId(apellido, arrayC, lengthC,
+						array[i].idCliente);
+
+				reparacion_imprimir(&array[i], descMarca, descServicio, nombre,
+						apellido, precio);
+
 			}
 
 		}
+
+		printf(
+				"------------------------------------------------------------------------------------------------------------------------------------------\n");
 
 		ret = 0;
 	}
 	return ret;
 }
-
-
-/**
- *Imprime una posicion del array Fecha
- * @param array
- * @param length
- * @return
- */
-int fecha_imprimirArray(Fecha *array, int length) {
-
-	int ret = -1;
-
-	if (array != NULL && length > 0) {
-
-		for (int i = 0; i < length; i++) {
-
-			if (array[i].isEmpty == 0) {
-
-				fecha_imprimir(&array[i]);
-			}
-
-		}
-
-		ret = 0;
-	}
-	return ret;
-}
-
 
 /**
  * Imprime array de Servicios
@@ -142,6 +252,11 @@ int servicio_imprimirArray(Servicio *array, int length) {
 
 	if (array != NULL && length > 0) {
 
+		printf(
+				"---------------------------------------------------------------------------------------------\n");
+
+		printf("%10s  %20s   %20s\n", "ID", "DESCRIPCION", "PRECIO");
+
 		for (int i = 0; i < length; i++) {
 
 			if (array[i].isEmpty == 0) {
@@ -150,6 +265,8 @@ int servicio_imprimirArray(Servicio *array, int length) {
 			}
 
 		}
+		printf(
+				"---------------------------------------------------------------------------------------------\n");
 
 		ret = 0;
 	}
@@ -178,14 +295,6 @@ int reparacion_iniciar(Reparacion *array, int length) {
 
 }
 
-/**
- * Para indicar que todas las posiciones del array Servicio están vacías,
- * pone la bandera (isEmpty) en TRUE en todas las posiciones
- * \param list puntero al array
- * \param len largo del array
- * \return 0 Éxito -1 Error
- *
- */
 int servicio_iniciar(Servicio *array, int length) {
 
 	int ret = -1;
@@ -201,29 +310,6 @@ int servicio_iniciar(Servicio *array, int length) {
 }
 
 /**
- * Para indicar que todas las posiciones del array Fecha están vacías,
- * pone la bandera (isEmpty) en TRUE en todas las posiciones
- * \param list puntero al array
- * \param len largo del array
- * \return 0 Éxito -1 Error
- *
- */
-
-
-int fecha_iniciar(Fecha *array, int length) {
-
-	int ret = -1;
-	if (array != NULL && length > 0) {
-		for (int i = 0; i < length; i++) {
-			array[i].isEmpty = 1;
-		}
-		ret = 0;
-	}
-
-	return ret;
-
-}
-/**
  * Busca un lugar vacio en el array Reparacion y lo asigna a puntero indice
  * @param list Puntero al array
  * @param len longitud del array
@@ -232,60 +318,6 @@ int fecha_iniciar(Fecha *array, int length) {
  */
 
 int reparacion_emptyIndex(Reparacion *array, int length, int *indice) {
-
-	int ret = -1;
-
-	if (array != NULL && length > 0) {
-		for (int i = 0; i < length; i++) {
-
-			if (array[i].isEmpty == 1) {
-
-				ret = 0;
-				*indice = i;
-				break;
-
-			}
-		}
-	}
-
-	return ret;
-}
-
-/**
- * Busca un lugar vacio en el array Servicio y lo asigna a puntero indice
- * @param list Puntero al array
- * @param len longitud del array
- * @param puntero indice
- * @return 0 Éxito -1 Error
- */
-int servicio_emptyIndex(Servicio *array, int length, int *indice) {
-
-	int ret = -1;
-
-	if (array != NULL && length > 0) {
-		for (int i = 0; i < length; i++) {
-
-			if (array[i].isEmpty == 1) {
-
-				ret = 0;
-				*indice = i;
-				break;
-
-			}
-		}
-	}
-
-	return ret;
-}
-
-/**
- * Busca un lugar vacio en el array Fecha y lo asigna a puntero indice
- * @param list Puntero al array
- * @param len longitud del array
- * @param puntero indice
- * @return 0 Éxito -1 Error
- */
-int fecha_emptyIndex(Fecha *array, int length, int *indice) {
 
 	int ret = -1;
 
@@ -331,54 +363,6 @@ int reparacion_emptyArray(Reparacion *list, int length) {
 }
 
 /**
- * Verifica si el array Servicio en su totalidad está vacio
- * @param list puntero a Array
- * @param length largo del Array
- * @return 1 Verdadero (Array vacio) 0 Falso
- */
-int servicio_emptyArray(Servicio *list, int length) {
-
-	int ret = 1; // TRUE
-
-	if (list != NULL && length > 0) {
-		for (int i = 0; i < length; i++) {
-
-			if (list[i].isEmpty == 0) {
-
-				ret = 0;
-				break;
-			}
-		}
-	}
-
-	return ret;
-}
-
-/**
- * Verifica si el array Fecha en su totalidad está vacio
- * @param list puntero a Array
- * @param length largo del Array
- * @return 1 Verdadero (Array vacio) 0 Falso
- */
-int fecha_emptyArray(Fecha *list, int length) {
-
-	int ret = 1; // TRUE
-
-	if (list != NULL && length > 0) {
-		for (int i = 0; i < length; i++) {
-
-			if (list[i].isEmpty == 0) {
-
-				ret = 0;
-				break;
-			}
-		}
-	}
-
-	return ret;
-}
-
-/**
  * Agrega una Reparacion al array de Reparaciones
  * @param list puntero a Array
  * @param len longitud del array
@@ -387,10 +371,11 @@ int fecha_emptyArray(Fecha *list, int length) {
  * @return 0 Éxito -1 Error
  */
 
-int reparacion_alta(Reparacion *array, int length, int *pId, int idServicio,
-		int serie, Fecha fecha) {
+int reparacion_alta(Reparacion *arrayR, int lengthR, Cliente *arrayC,
+		int lengthC, Servicio *arrayS, int lengthS, Electrodomestico *arrayE,
+		int lengthE, Marca *arrayM, int lengthM, int *pId) {
 
-	Reparacion bufferReparacion;
+	Reparacion bufferRepa;
 
 	int indice;
 
@@ -398,9 +383,11 @@ int reparacion_alta(Reparacion *array, int length, int *pId, int idServicio,
 
 	int ret = -1;
 
-	if (array != NULL && length > 0 && pId != NULL) {
+	if (arrayR != NULL
+			&& lengthR
+					> 0&& arrayS != NULL && lengthS > 0 && arrayE != NULL && lengthE > 0 && pId != NULL) {
 
-		if (reparacion_emptyIndex(array, length, &indice) == -1) {
+		if (reparacion_emptyIndex(arrayR, lengthR, &indice) == -1) {
 
 			printf("%s", arrayCompleto);
 
@@ -408,119 +395,27 @@ int reparacion_alta(Reparacion *array, int length, int *pId, int idServicio,
 
 		else {
 
-			bufferReparacion.idServicio = idServicio;
+			if (cliente_imprimirArray(arrayC, lengthC) == 0
+					&& cliente_validarId(arrayC, lengthC, &bufferRepa.idCliente)
+							== 0
 
-			bufferReparacion.serie = serie;
+					&& electro_ordenar(arrayE,lengthE)==0
+					&& electro_imprimirArray(arrayE, lengthE, arrayM, lengthM) == 0
+					&& electro_validarSerie(arrayE, lengthE, arrayM, lengthM, &bufferRepa.serie) == 0
+					&& servicio_imprimirArray(arrayS, lengthS) == 0
+					&& servicio_validarId(arrayS, lengthS, &bufferRepa.idServicio) == 0
+					&& reparacion_validarFecha(&bufferRepa.fecha) == 0) {
 
-			bufferReparacion.fecha = fecha;
+				bufferRepa.isEmpty = 0;
+				bufferRepa.id = *pId;
+				arrayR[indice] = bufferRepa;
 
-			bufferReparacion.id = *pId;
-
-			bufferReparacion.isEmpty = 0;
-
-			array[indice] = bufferReparacion;
-
-			(*pId)++;
-
-			ret = 0;
-
-		}
-	}
-
-	return ret;
-}
-
-/**
- * Agrega un Servicio al Array de Servicio
- * @param array Puntero al array
- * @param length Largo del array
- * @param pId puntero a Id (Autoincremental)
- * @return
- */
-int servicio_alta(Servicio *array, int length, int *pId) {
-
-	Servicio bufferServ;
-
-	int indice;
-
-	char arrayCompleto[] = "No hay más espacio para realizar una carga \n";
-
-	int ret = -1;
-
-	if (array != NULL && length > 0 && pId != NULL) {
-
-		if (servicio_emptyIndex(array, length, &indice) == -1) {
-
-			printf("%s", arrayCompleto);
+				(*pId)++;
+				ret = 0;
+			}
 
 		}
 
-		else if (utn_getTexto(bufferServ.descripcion, "Ingrese descripcion \n",
-				"Ingreso inválido \n", 1, MAX_DESCRIPCION, 2) == 0
-
-				&& utn_getFloat(&bufferServ.precio, "Ingrese PRECIO\n",
-						"Número inválido \n", 1, 200000, 2) == 0) {
-
-			bufferServ.id = *pId;
-
-			bufferServ.isEmpty = 0;
-
-			array[indice] = bufferServ;
-
-			(*pId)++;
-
-			ret = 0;
-
-		}
-	}
-
-	return ret;
-}
-
-/**
- * Agrega una Fecha al Array Fecha
- * @param array Puntero al array
- * @param length Largo del array
- * @param pFecha Puntero a Estructura Fecha (auxiliar)
- * @return
- */
-int fecha_alta(Fecha *array, int length, Fecha *pFecha) {
-
-	Fecha bufferFecha;
-
-	int indice;
-
-	char arrayCompleto[] = "No hay más espacio para realizar una carga \n";
-
-	int ret = -1;
-
-	if (array != NULL && length > 0) {
-
-		if (fecha_emptyIndex(array, length, &indice) == -1) {
-
-			printf("%s", arrayCompleto);
-
-		}
-
-		else if (utn_getNumero(&bufferFecha.dia, "Ingrese dia en números \n",
-				"Numero invalido \n", 1, 31, 2) == 0
-				&& utn_getNumero(&bufferFecha.mes, "Ingrese mes en números \n",
-						"Numero invalido \n", 1, 12, 2) == 0
-				&& utn_getNumero(&bufferFecha.año, "Ingrese año (4 numeros) \n",
-						"Numero invalido \n", MIN_AÑO_REPA, MAX_AÑO_REPA, 2)
-						== 0)
-
-						{
-
-			bufferFecha.isEmpty = 0;
-
-			array[indice] = bufferFecha;
-
-			*pFecha = bufferFecha;
-
-			ret = 0;
-
-		}
 	}
 
 	return ret;
@@ -549,7 +444,6 @@ int reparacion_buscarId(Reparacion *array, int length, int id, int *indice) {
 
 				*indice = i;
 
-				reparacion_imprimir(&array[i]);
 				break;
 
 			}
@@ -560,6 +454,68 @@ int reparacion_buscarId(Reparacion *array, int length, int id, int *indice) {
 	return ret;
 }
 
+int servicio_validarId(Servicio *array, int length, int *id) {
+
+	int ret = -1;
+
+	int idAux;
+
+	int flag = 0;
+
+	if (utn_getNumero(&idAux, "Ingrese el Id correspondiente al servicio \n",
+			"Ingreso inválido \n", MIN_IDSERV, MAX_IDSERV, 2) == 0) {
+
+		for (int i = 0; i < length; i++) {
+
+			if (array[i].id == idAux && array[i].isEmpty == 0) {
+
+				printf("Se eligió: \n %10s  %20s   %20s\n", "ID", "DESCRIPCION","PRECIO");
+
+				servicio_imprimir(&array[i]);
+
+				printf("---------------------------------------------------------------------------------------------\n");
+
+				flag = 1;
+				ret = 0;
+				*id = idAux;
+				break;
+
+			}
+		}
+	}
+
+	if (flag==0){
+
+		printf("El ID ingresado no corresponde a ningún servicio. \n");
+	}
+
+	return ret;
+
+}
+
+int reparacion_validarFecha(Fecha *fecha) {
+
+	int ret = -1;
+
+	Fecha fechaAux;
+
+	if (utn_getNumero(&fechaAux.dia,
+			"Fecha de reparación \nIngrese día en números: \n",
+			"Número inválido \n", 1, 31, 2) == 0
+			&& utn_getNumero(&fechaAux.mes, "Ingrese mes en números: \n",
+					"Número inválido \n", 1, 12, 2) == 0
+			&& utn_getNumero(&fechaAux.anio, "Ingrese año en números: \n",
+					"Número inválido \n", MIN_ANIO_REPA, MAX_ANIO_REPA, 2)
+					== 0) {
+
+		*fecha = fechaAux;
+		ret = 0;
+
+	}
+
+	return ret;
+
+}
 
 /**
  * Verifica si existe una posición ocupada del array Servicio
@@ -595,37 +551,89 @@ int servicio_buscarId(Servicio *array, int length, int id, int *indice) {
 	return ret;
 }
 
-
-/**
- * Agrega un Servicio al array de Servicio con datos precargados
- * @param array puntero al array
- * @param length largo del array
- * @param descripcion descripcion Servicio
- * @param precio Precio Servicio
- * @param pId Puntero a Id (autoincremental)
- * @return
- */
-int servicio_altaForzada(Servicio *array, int length, char *descripcion,
-		float precio, int *pId) {
-
-	Servicio bufferServ;
-
-	int indice = -1;
+int servicio_hardcodeo(Servicio *array, int length, int *id) {
 
 	int ret = -1;
 
-	if (array != NULL && length > 0 && pId != NULL && descripcion != NULL) {
+	if (array != NULL && length > 0) {
 
-		servicio_emptyIndex(array, length, &indice);
+		char descripcion[QTY_SERVICIOS][MAX_DESC_SERV] = { "Garantia",
+				"Mantenimiento", "Repuestos", "Refaccion" };
+		float precio[QTY_SERVICIOS] = { 250, 500, 400, 600 };
 
-		strncpy(bufferServ.descripcion, descripcion, MAX_DESCRIPCION);
+		for (int i = 0; i < 4; i++) {
 
-		bufferServ.precio = precio;
-		bufferServ.id = *pId;
-		bufferServ.isEmpty = 0;
-		array[indice] = bufferServ;
+			strncpy(array[i].descripcion, descripcion[i], MAX_DESC_SERV);
+			array[i].precio = precio[i];
+			array[i].id = *id;
+			array[i].isEmpty = 0;
+			(*id)++;
 
-		(*pId)++;
+		}
+
+		ret = 0;
+
+	}
+
+	return ret;
+}
+
+int reparacion_ordenarPorServicio(Reparacion *array, int length) {
+
+	int ret = -1;
+	int flagSwap;
+	Reparacion buffer;
+
+	do {
+
+		flagSwap = 0;
+
+		for (int i = 0; i < length - 1; i++) {
+
+			if (array[i].idServicio > array[i + 1].idServicio
+					|| (array[i].idServicio == array[i + 1].idServicio
+							&& array[i].serie > array[i + 1].serie)) {
+
+				flagSwap = 1;
+				buffer = array[i];
+				array[i] = array[i + 1];
+				array[i + 1] = buffer;
+			}
+		}
+
+		length--;
+
+	} while (flagSwap == 1);
+
+	ret = 0;
+
+	return ret;
+}
+
+
+
+int reparacion_altaForzada(Reparacion *array, int length, int *pId) {
+
+	int ret = -1;
+
+	if (array != NULL && length > 0) {
+
+		int serie[4] = { 1400, 2345, 1234,1234 };
+		Fecha fecha[4] ={ { 10, 10, 2020 }, { 20, 11, 2020 }, { 12, 12, 2020 } ,{15,12,2020}};
+		int idServicio[4] = { 20000, 20001, 20002,20000 };
+		int idCliente[4] = { 1, 2, 3, 3 };
+
+		for (int i = 0; i < 4; i++) {
+
+			array[i].serie = serie[i];
+			array[i].fecha = fecha[i];
+			array[i].idServicio = idServicio[i];
+			array[i].idCliente = idCliente[i];
+			array[i].id = *pId;
+			array[i].isEmpty = 0;
+			(*pId)++;
+
+		}
 
 		ret = 0;
 
