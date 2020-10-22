@@ -308,6 +308,20 @@ int main(void) {
 
 							}
 
+							break;
+
+						case 6:
+
+							if (informar_cantidadServicios(arrayReparaciones,QTY_CLIENTES,arrayElectro,QTY_ELECTRODOMESTICOS,arrayMarcas,QTY_MARCAS,arrayServicios,QTY_SERVICIOS,arrayClientes,QTY_CLIENTES)==0){
+
+								mensajeExito();
+
+							}
+
+							break;
+
+
+
 
 
 						}
@@ -358,7 +372,7 @@ int main(void) {
 
 			case 15:
 
-				if (informarCantidadServicios(arrayReparaciones,
+				if (informar_cantidadServicios(arrayReparaciones,
 				QTY_REPARACIONES, arrayElectro, QTY_ELECTRODOMESTICOS,
 						arrayMarcas,
 						QTY_MARCAS, arrayServicios, QTY_SERVICIOS,

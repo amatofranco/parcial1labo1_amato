@@ -19,6 +19,9 @@ Servicio *arrayS, int lengthS, Cliente *arrayC, int lengthC);
 int informar_electroSinRepa(Reparacion *array, int lengthR,Electrodomestico *arrayE, int lengthE, Marca *arrayM, int lengthM);
 
 int informar_importePorElectro(Reparacion *array, int lengthR, Electrodomestico *arrayE, int lengthE, Marca *arrayM, int lengthM, Servicio *arrayS, int lengthS, Cliente *arrayC, int lengthC);
+
+int informar_cantidadServicios(Reparacion *array, int lengthR,Electrodomestico *arrayE, int lengthE, Marca *arrayM, int lengthM,
+Servicio *arrayS, int lengthS, Cliente *arrayC, int lengthC);
 //////////////////////////////////////////////////////////////////////////
 int idServicioPorDescripcion(char *descripcion, Servicio *array, int len,
 		int *idServicio);
@@ -32,9 +35,7 @@ int informarPorServicio(Reparacion *array, int lengthR,
 int cargarDescripcionServicioPorId(int idServicio, Servicio *array, int length,
 		char *descripcion);
 
-int informarCantidadServicios(Reparacion *array, int lengthR,
-		Electrodomestico *arrayE, int lengthE, Marca *arrayM, int lengthM,
-		Servicio *arrayS, int lengthS, Cliente *arrayC, int lengthC);
+
 
 int informarCantidadPorServicio(Reparacion *array, int lengthR,
 		Electrodomestico *arrayE, int lengthE, Marca *arrayM, int lengthM,
