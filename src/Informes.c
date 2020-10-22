@@ -7,8 +7,6 @@
 #include "Electrodomestico.h"
 #include "utn_inputs.h"
 
-
-
 int idServicioPorDescripcion(char *descripcion, Servicio *array, int len,
 		int *idServicio) {
 
@@ -53,7 +51,6 @@ int informarPorServicio(Reparacion *array, int lengthR,
 
 	int ret = -1;
 
-
 	int idServicio;
 
 	int flag = 0;
@@ -74,10 +71,11 @@ int informarPorServicio(Reparacion *array, int lengthR,
 
 			for (int i = 0; i < lengthR; i++) {
 
-				if (array[i].isEmpty == 0 && array[i].idServicio == idServicio) {
+				if (array[i].isEmpty == 0
+						&& array[i].idServicio == idServicio) {
 
 					reparacion_imprimirDescripcion(&array[i], arrayE, lengthE,
-					arrayM, lengthM, arrayS, lengthS, arrayC, lengthC);
+							arrayM, lengthM, arrayS, lengthS, arrayC, lengthC);
 
 					flag = 1;
 
@@ -114,11 +112,15 @@ int informarCantidadServicios(Reparacion *array, int lengthR,
 
 	int ret = -1;
 
-
 	char descServicio[MAX_DESC_SERV];
 
-
 	int cont = 0;
+
+	int flag = 0;
+
+	int mayorCantidad = 0;
+
+	char mayorServicio[MAX_DESC_SERV];
 
 	if (array != NULL && lengthR > 0) {
 
@@ -137,25 +139,48 @@ int informarCantidadServicios(Reparacion *array, int lengthR,
 
 				if (array[j].isEmpty == 0 && array[j].idServicio == arrayS[i].id) {
 
-
 					reparacion_imprimirDescripcion(&array[j], arrayE, lengthE,
-					arrayM, lengthM, arrayS, lengthS, arrayC, lengthC);
+							arrayM, lengthM, arrayS, lengthS, arrayC, lengthC);
 
 					cont++;
+					flag = 1;
 
 				}
 			}
 
-			printf(
-					"-----------------------------------------------------------------------------------------------------------------------------------------\n");
-			printf("Cantidad: %d \n", cont);
+			if (cont > mayorCantidad) {
 
-			printf(
-					"------------------------------------------------------------------------------------------------------------------------------------------\n");
+				mayorCantidad = cont;
 
-			cont = 0;
+				strncpy(mayorServicio,descServicio,MAX_DESC_SERV);
+
+
+
+			}
+
+
+
+			if (flag == 1) {
+
+				printf(
+						"-----------------------------------------------------------------------------------------------------------------------------------------\n");
+				printf("Cantidad: %d \n", cont);
+
+				printf(
+						"------------------------------------------------------------------------------------------------------------------------------------------\n");
+
+				cont = 0;
+				flag = 0;
+			}
+
+			else {
+				printf("No se registró ningún Servicio \n");
+				printf("------------------------------------------------------------------------------------------------------------------------------------------\n");
+			}
 
 		}
+
+		printf("Mayor cantidad de Servicios: %s \n",mayorServicio);
 
 		ret = 0;
 
@@ -169,10 +194,7 @@ int informarCantidadPorServicio(Reparacion *array, int lengthR,
 
 	int ret = -1;
 
-
-
 	char descServicio[MAX_DESC_SERV];
-
 
 	int flag = 0;
 
@@ -198,10 +220,12 @@ int informarCantidadPorServicio(Reparacion *array, int lengthR,
 
 					for (int j = 0; j < lengthR; j++) {
 
-						if (array[j].isEmpty == 0 && array[j].idServicio == arrayS[i].id) {
+						if (array[j].isEmpty == 0
+								&& array[j].idServicio == arrayS[i].id) {
 
-							reparacion_imprimirDescripcion(&array[j], arrayE, lengthE,
-							arrayM, lengthM, arrayS, lengthS, arrayC, lengthC);
+							reparacion_imprimirDescripcion(&array[j], arrayE,
+									lengthE, arrayM, lengthM, arrayS, lengthS,
+									arrayC, lengthC);
 
 							cont++;
 
@@ -224,7 +248,7 @@ int informarCantidadPorServicio(Reparacion *array, int lengthR,
 
 		}
 
-		if (flag!=0){
+		if (flag != 0) {
 
 			ret = 0;
 		}
@@ -287,5 +311,4 @@ int informarPorMarca(Electrodomestico *array, int length, Marca *arrayM,
 	}
 	return ret;
 }
-
 

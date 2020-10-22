@@ -281,15 +281,6 @@ int reparacion_validarFecha(Fecha *fecha) {
 
 }
 
-/**
- * Verifica si existe una posición ocupada del array Servicio
- * que coincida con el valor del id y la asigna a puntero indice
- * @param list Puntero al array
- * @param len longitud del array
- * @param id id a buscar
- * @param puntero a indice
- * @return posición del array
- */
 
 /**
  * Obtiene las descripciones de los Elementos de una reparacion a partir de los datos
@@ -410,7 +401,7 @@ int reparacion_imprimirArray(Reparacion *array, int lengthR,
 
 
 /**
- * Ordena los Servicios por ID y Serie electrodomestico
+ * Ordena las Reparaciones por ID Servicio y Serie electrodomestico
  * @param array Array Servicios
  * @param length Largo del Array
  * @return 0 Éxito -1 Error

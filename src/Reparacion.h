@@ -48,6 +48,11 @@ int isEmpty;
 } typedef Reparacion;
 
 
+int reparacion_iniciar(Reparacion* list, int len);
+int servicio_iniciar(Servicio *array, int length);
+int reparacion_emptyIndex(Reparacion *array, int length, int* indice);
+int reparacion_emptyArray(Reparacion *list, int length);
+
 int reparacion_imprimir(Reparacion *pReparacion, char *marca, char *servicio, char *nombre, char *apellido, float precio);
 void reparacion_imprimirColumnas(void);
 int servicio_imprimir(Servicio *pServicio);
@@ -61,23 +66,12 @@ int reparacion_apellidoClientePorId(char *apellido,Cliente *array,int length,int
 
 int reparacion_ordenarPorServicio(Reparacion *array, int length);
 
-
-
-int reparacion_iniciar(Reparacion* list, int len);
-int servicio_iniciar(Servicio *array, int length);
-
-
-int reparacion_emptyIndex(Reparacion *array, int length, int* indice);
-int reparacion_emptyArray(Reparacion *list, int length);
-
 int reparacion_alta(Reparacion *arrayR, int lengthR, Cliente *arrayC, int lengthC, Servicio *arrayS, int lengthS, Electrodomestico *arrayE, int lengthE, Marca *arrayM, int lengthM, int *pId);
 
 int reparacion_buscarId(Reparacion *array, int length, int id, int* indice);
 int servicio_buscarId(Servicio *array, int length, int id, int *indice);
 int servicio_validarId(Servicio *array, int length, int *id);
 int reparacion_validarFecha(Fecha *fecha);
-
-
 
 int reparacion_modificar(Reparacion *array, int length);
 int reparacion_baja(Reparacion *list, int len);

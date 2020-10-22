@@ -53,6 +53,14 @@ int marca_imprimir(Marca *pMarca) {
 	return ret;
 }
 
+/**
+ * Obtiene la descripcion de una Marca a través del Id ingresado
+ * @param descripcion Descripcion Marca
+ * @param array Array de Marcas
+ * @param length Largo Array de Marcas
+ * @param id Id de Marca Ingresado
+ * @return 0 Éxito -1 Error
+ */
 int marca_descripcionPorId(char *descripcion, Marca *array, int length, int id) {
 
 	int ret = -1;
@@ -78,11 +86,13 @@ int marca_descripcionPorId(char *descripcion, Marca *array, int length, int id) 
 
 }
 
-/** \brief Imprime la lista de Electrodomesticos con sus respectivos datos
- * \param list puntero a array de Electrodomesticos
- * \param len largo del array
- * \return 0 Éxito -1 Error
- *
+/**
+ * Recibe el numero de serie de un Electrodomestico y devuelve el Id de su Marca
+ * @param idMarca Id Marca electrodomestico
+ * @param array Array de Electrodomesticos
+ * @param length Largo del Array
+ * @param serie Numero de Serie Electrodomestico
+ * @return
  */
 
 int electro_marcaPorSerie(int *idMarca, Electrodomestico *array, int length,
@@ -108,6 +118,15 @@ int electro_marcaPorSerie(int *idMarca, Electrodomestico *array, int length,
 	return ret;
 
 }
+
+/**
+ * Imprime Lista de Electrodomesticos
+ * @param array Array de Electrodomesticos
+ * @param length Largo Array Electrodomesticos
+ * @param arrayM Array de Marcas
+ * @param lengthM Largo Array de Marcas
+ * @return 0 Éxito -1 Error
+ */
 
 int electro_imprimirArray(Electrodomestico *array, int length, Marca *arrayM,
 		int lengthM) {
@@ -139,6 +158,16 @@ int electro_imprimirArray(Electrodomestico *array, int length, Marca *arrayM,
 	}
 	return ret;
 }
+
+/**
+ * Recibe un ID de Electrodomestico e imprime sus Datos
+ * @param array
+ * @param length Array de Electrodomestico
+ * @param arrayM Array de Marcas
+ * @param lengthM Largo de Array de Marcas
+ * @param id Id de Electrodomestico
+ * @return 0 Éxito -1 Error
+ */
 
 int electro_imprimirPorId(Electrodomestico *array, int length, Marca *arrayM,
 		int lengthM, int id) {
@@ -230,6 +259,15 @@ int electro_iniciar(Electrodomestico *array, int length) {
 	return ret;
 
 }
+
+/**
+ * Para indicar que todas las posiciones del array Marca están vacías,
+ * pone la bandera (isEmpty) en TRUE en todas las posiciones
+ * \param list puntero al array
+ * \param len largo del array
+ * \return 0 Éxito -1 Error
+ *
+ */
 
 int marca_iniciar(Marca *array, int length) {
 
@@ -324,10 +362,10 @@ int marca_emptyArray(Electrodomestico *list, int length) {
 
 /**
  * Agrega una Electrodomestico al array de Electrodomesticos
- * @param list puntero a Array
- * @param len longitud del array
- * @param indice indice del Array donde se agregará
- * @param *pId puntero a contador de Id
+ * @param arrayE Array de Electrodomesticos
+ * @param lengthE Largo de Array Electrodomesticos
+ * @param arrayM Array de Marcas
+ * @param lengthM Largo de Array Marcas
  * @return 0 Éxito -1 Error
  */
 
@@ -417,10 +455,12 @@ int electro_buscarId(Electrodomestico *array, int length, int id,
 /**
  * Verifica si el numero de serie ingresado se encuentra
  * en alguna posicion del array Electrodomesticos
- * @param array puntero a Array de electrodomesticos
- * @param length Largo del array
- * @param serie Puntero a Numero de serie encontrado
- * @return 0 Éxito -1 Error
+ * @param array Array de Electrodomesticos
+ * @param length Largo ARray de ELectrodomesticos
+ * @param arrayM Array de Marcas
+ * @param lengthM Largo Array de Marcas
+ * @param serie Numero de Serie Encontrado
+ * @return
  */
 int electro_validarSerie(Electrodomestico *array, int length, Marca *arrayM,
 		int lengthM, int *serie) {
@@ -535,10 +575,14 @@ int marca_buscarId(Marca *array, int length, int id, int *indice) {
 /**
  * Actualiza uno de los datos del Electrodomestico
  * en el array, verificando si existe su id
- * @param list puntero al array
- * @param len longitud del array
+ * @param array Electrodomesticos
+ * @param length Largo ARray de Electrodomesticos
+ * @param arrayM Array de Marcas
+ * @param lengthM LArgo Array de Marcas
  * @return 0 Éxito -1 Error
  */
+
+
 int electro_modificar(Electrodomestico *array, int length, Marca *arrayM,
 		int lengthM) {
 
@@ -605,9 +649,11 @@ int electro_modificar(Electrodomestico *array, int length, Marca *arrayM,
 /**
  * Pide un Electrodomestico del array a eliminar por id,
  * verifica que existe y pone la bandera Is Empty en 1
- * @param list puntero al array
- * @param len largo del array
- * @return
+ * @param array Array de ELectrodomesticos
+ * @param length Largo Array de Electrodomesticos
+ * @param arrayM Array de Marcas
+ * @param lengthM Largo Array de Marcas
+ * @return 0 Éxito -1 Error
  */
 
 int electro_baja(Electrodomestico *array, int length, Marca *arrayM,
@@ -737,6 +783,13 @@ int electro_altaForzada(Electrodomestico *array, int length) {
 
 }
 
+/**
+ * Ingreso hardcodeado de datos de Marca
+ * @param array Array de Marcas
+ * @param length Largo Array de Marcas
+ * @param id Puntero a Valor de ID
+ * @return 0 Éxito -1 Error
+ */
 int marca_hardcodeo(Marca *array, int length, int *id) {
 
 	int ret = -1;

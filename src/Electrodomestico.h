@@ -37,6 +37,14 @@ int isEmpty;
 
 
 
+
+int electro_iniciar(Electrodomestico* list, int len);
+int marca_iniciar(Marca *array, int length);
+
+int electro_emptyIndex(Electrodomestico *array, int length, int* indice);
+int electro_emptyArray(Electrodomestico *list, int length);
+
+
 int electro_imprimir(Electrodomestico *pElectro, char *descripcion);
 void electro_imprimirColumnas(void);
 int electro_imprimirArray(Electrodomestico *array, int length, Marca *arrayM, int lengthM);
@@ -46,14 +54,6 @@ int marca_imprimirArray(Marca *array, int length);
 int marca_imprimir(Marca *array);
 int marca_descripcionPorId(char *descripcion, Marca *array, int length, int id);
 
-
-
-int electro_iniciar(Electrodomestico* list, int len);
-int marca_iniciar(Marca *array, int length);
-
-
-int electro_emptyIndex(Electrodomestico *array, int length, int* indice);
-int electro_emptyArray(Electrodomestico *list, int length);
 
 int electro_alta(Electrodomestico *arrayE, int lengthE, Marca *arrayM, int lengthM);
 int electro_buscarId(Electrodomestico *array, int length, int id, int *resultado);
