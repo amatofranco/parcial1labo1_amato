@@ -22,6 +22,10 @@ int informar_importePorElectro(Reparacion *array, int lengthR, Electrodomestico 
 
 int informar_cantidadServicios(Reparacion *array, int lengthR,Electrodomestico *arrayE, int lengthE, Marca *arrayM, int lengthM,
 Servicio *arrayS, int lengthS, Cliente *arrayC, int lengthC);
+
+int informar_importePorFecha(Reparacion *array, int lengthR,
+		Electrodomestico *arrayE, int lengthE, Marca *arrayM, int lengthM,
+		Servicio *arrayS, int lengthS, Cliente *arrayC, int lengthC);
 //////////////////////////////////////////////////////////////////////////
 int idServicioPorDescripcion(char *descripcion, Servicio *array, int len,
 		int *idServicio);

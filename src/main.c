@@ -68,7 +68,7 @@ int main(void) {
 				"8- Alta Reparacion \n"
 				"9- Imprimir Listado Reparaciones \n"
 				"10- INFORMES  \n"
-				"11- Salir  \n","Opción Inválida", 1, 11, 2);
+				"11- Salir  \n", "Opción Inválida", 1, 11, 2);
 
 		/*
 		 "10- Informar Electrodomésticos por Marca \n"
@@ -254,18 +254,17 @@ int main(void) {
 											"11- Marca de Electrodoméstico con mayor cantidad de Refacciones"
 											"12- Listar los Electrodomésticos que recibieron una reparacion en una fecha determinada  \n"
 											"13- Volver al MENÚ PRINCIPAL  \n",
-									"Opción inválida",1, 13, 2);
+									"Opción inválida", 1, 13, 2);
 
 					if (ret == 0) {
 
 						switch (opcion) {
 
-
-
 						case 1:
 
-
-							if (informar_electro2020(arrayElectro,QTY_ELECTRODOMESTICOS,arrayMarcas,QTY_MARCAS)==0){
+							if (informar_electro2020(arrayElectro,
+									QTY_ELECTRODOMESTICOS, arrayMarcas,
+									QTY_MARCAS) == 0) {
 
 								mensajeExito();
 							}
@@ -274,8 +273,9 @@ int main(void) {
 
 						case 2:
 
-
-							if (informar_electroPorMarca(arrayElectro,QTY_ELECTRODOMESTICOS,arrayMarcas,QTY_MARCAS)==0){
+							if (informar_electroPorMarca(arrayElectro,
+									QTY_ELECTRODOMESTICOS, arrayMarcas,
+									QTY_MARCAS) == 0) {
 
 								mensajeExito();
 							}
@@ -283,7 +283,11 @@ int main(void) {
 							break;
 						case 3:
 
-							if (informar_repaPorElectro(arrayReparaciones,QTY_CLIENTES,arrayElectro,QTY_ELECTRODOMESTICOS,arrayMarcas,QTY_MARCAS,arrayServicios,QTY_SERVICIOS,arrayClientes,QTY_CLIENTES)==0){
+							if (informar_repaPorElectro(arrayReparaciones,
+									QTY_CLIENTES, arrayElectro,
+									QTY_ELECTRODOMESTICOS, arrayMarcas,
+									QTY_MARCAS, arrayServicios, QTY_SERVICIOS,
+									arrayClientes, QTY_CLIENTES) == 0) {
 
 								mensajeExito();
 
@@ -292,7 +296,10 @@ int main(void) {
 
 						case 4:
 
-							if (informar_electroSinRepa(arrayReparaciones,QTY_CLIENTES,arrayElectro,QTY_ELECTRODOMESTICOS,arrayMarcas,QTY_MARCAS)==0){
+							if (informar_electroSinRepa(arrayReparaciones,
+									QTY_CLIENTES, arrayElectro,
+									QTY_ELECTRODOMESTICOS, arrayMarcas,
+									QTY_MARCAS) == 0) {
 
 								mensajeExito();
 
@@ -302,7 +309,11 @@ int main(void) {
 
 						case 5:
 
-							if (informar_importePorElectro(arrayReparaciones,QTY_CLIENTES,arrayElectro,QTY_ELECTRODOMESTICOS,arrayMarcas,QTY_MARCAS,arrayServicios,QTY_SERVICIOS,arrayClientes,QTY_CLIENTES)==0){
+							if (informar_importePorElectro(arrayReparaciones,
+									QTY_CLIENTES, arrayElectro,
+									QTY_ELECTRODOMESTICOS, arrayMarcas,
+									QTY_MARCAS, arrayServicios, QTY_SERVICIOS,
+									arrayClientes, QTY_CLIENTES) == 0) {
 
 								mensajeExito();
 
@@ -312,7 +323,11 @@ int main(void) {
 
 						case 6:
 
-							if (informar_cantidadServicios(arrayReparaciones,QTY_CLIENTES,arrayElectro,QTY_ELECTRODOMESTICOS,arrayMarcas,QTY_MARCAS,arrayServicios,QTY_SERVICIOS,arrayClientes,QTY_CLIENTES)==0){
+							if (informar_cantidadServicios(arrayReparaciones,
+									QTY_CLIENTES, arrayElectro,
+									QTY_ELECTRODOMESTICOS, arrayMarcas,
+									QTY_MARCAS, arrayServicios, QTY_SERVICIOS,
+									arrayClientes, QTY_CLIENTES) == 0) {
 
 								mensajeExito();
 
@@ -320,9 +335,19 @@ int main(void) {
 
 							break;
 
+						case 7:
 
+							if (informar_importePorFecha(arrayReparaciones,
+									QTY_CLIENTES, arrayElectro,
+									QTY_ELECTRODOMESTICOS, arrayMarcas,
+									QTY_MARCAS, arrayServicios, QTY_SERVICIOS,
+									arrayClientes, QTY_CLIENTES) == 0) {
 
+								mensajeExito();
 
+							}
+
+							break;
 
 						}
 					}
@@ -335,8 +360,8 @@ int main(void) {
 
 			case 12:
 
-				if (informar_electroPorMarca(arrayElectro, QTY_ELECTRODOMESTICOS,
-						arrayMarcas, QTY_MARCAS) == 0) {
+				if (informar_electroPorMarca(arrayElectro,
+						QTY_ELECTRODOMESTICOS, arrayMarcas, QTY_MARCAS) == 0) {
 
 					mensajeExito();
 				} else {

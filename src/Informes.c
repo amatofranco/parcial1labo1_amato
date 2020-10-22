@@ -383,6 +383,79 @@ if (array != NULL && lengthR > 0) {
 }
 return ret;
 }
+
+
+
+
+int informar_importePorFecha(Reparacion *array, int lengthR,
+		Electrodomestico *arrayE, int lengthE, Marca *arrayM, int lengthM,
+		Servicio *arrayS, int lengthS, Cliente *arrayC, int lengthC) {
+
+	int ret = -1;
+
+	int flag = 0;
+
+	float importeServicio = 0;
+
+	float importeTotal = 0;
+
+	int cont = 0;
+
+	Fecha fechaAux;
+
+	if (array != NULL && lengthR > 0) {
+
+		if (reparacion_validarFecha(&fechaAux) == 0) {
+
+			reparacion_imprimirColumnas();
+
+			for (int i = 0; i < lengthR; i++) {
+
+				if (array[i].isEmpty == 0 && array[i].fecha.anio == fechaAux.anio && array[i].fecha.mes == fechaAux.mes && array[i].fecha.dia == fechaAux.dia) {
+
+					reparacion_imprimirDescripcion(&array[i], arrayE, lengthE,
+							arrayM, lengthM, arrayS, lengthS, arrayC, lengthC);
+
+					servicio_precioPorId(&importeServicio,arrayS,lengthS,array[i].idServicio);
+
+					flag = 1;
+
+					cont++;
+
+					if (cont>0){
+
+						importeTotal += importeServicio;
+
+					}
+
+				}
+
+			}
+
+			printf(
+					"------------------------------------------------------------------------------------------------------------------------------------------\n");
+
+		}
+
+	}
+
+	if (flag != 0) {
+
+		printf("Se registraron %d Reparaciones \n", cont);
+
+		printf("Importe total: %.2f \n",importeTotal);
+
+		ret = 0;
+
+	} else {
+
+		printf(
+				"No se registran Reparaciones relacionadas al Electrodomestico elegido \n");
+	}
+
+	return ret;
+}
+
 ////////////////////////////////////////////////////////////////////////////
 
 int idServicioPorDescripcion(char *descripcion, Servicio *array, int len,
