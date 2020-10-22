@@ -370,7 +370,7 @@ int marca_emptyArray(Electrodomestico *list, int length) {
  */
 
 int electro_alta(Electrodomestico *arrayE, int lengthE, Marca *arrayM,
-		int lengthM) {
+		int lengthM, int *pId) {
 
 	Electrodomestico bufferElectro;
 
@@ -396,9 +396,7 @@ int electro_alta(Electrodomestico *arrayE, int lengthE, Marca *arrayM,
 
 		else if (
 
-		utn_getNumero(&bufferElectro.id, "Ingrese ID del Electrodoméstico \n",
-				"Ingreso inválido \n", MIN_ID, MAX_ID, 2) == 0
-				&& utn_getNumero(&bufferElectro.serie,
+		        utn_getNumero(&bufferElectro.serie,
 						"Ingrese codigo de serie del Electrodoméstico\n",
 						"Ingreso inválido \n", 1,
 						MAX_NUMSERIE, 2) == 0
@@ -407,8 +405,10 @@ int electro_alta(Electrodomestico *arrayE, int lengthE, Marca *arrayM,
 						"Número inválido \n", MIN_ANIO, MAX_ANIO, 2) == 0) {
 
 			bufferElectro.isEmpty = 0;
+			bufferElectro.id = *pId;
 
 			arrayE[indice] = bufferElectro;
+			(*pId)++;
 
 			ret = 0;
 
@@ -754,7 +754,7 @@ int electro_ordenar(Electrodomestico *array, int length) {
  * @return 0 Éxito -1 Error
  */
 
-int electro_altaForzada(Electrodomestico *array, int length) {
+int electro_altaForzada(Electrodomestico *array, int length, int *pId) {
 
 	int ret = -1;
 
@@ -763,15 +763,15 @@ int electro_altaForzada(Electrodomestico *array, int length) {
 		int serie[3] = { 1400, 2345, 1234 };
 		int idMarca[3] = { 1000, 1001, 1002 };
 		int anio[3] = { 2005, 1990, 1990 };
-		int id[3] = { 1, 15, 35 };
 
 		for (int i = 0; i < 3; i++) {
 
 			array[i].serie = serie[i];
 			array[i].idMarca = idMarca[i];
 			array[i].anio = anio[i];
-			array[i].id = id[i];
+			array[i].id = *pId;
 			array[i].isEmpty = 0;
+			(*pId)++;
 
 		}
 

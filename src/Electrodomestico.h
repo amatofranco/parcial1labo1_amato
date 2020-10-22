@@ -55,7 +55,7 @@ int marca_imprimir(Marca *array);
 int marca_descripcionPorId(char *descripcion, Marca *array, int length, int id);
 
 
-int electro_alta(Electrodomestico *arrayE, int lengthE, Marca *arrayM, int lengthM);
+int electro_alta(Electrodomestico *arrayE, int lengthE, Marca *arrayM, int lengthM, int *pId);
 int electro_buscarId(Electrodomestico *array, int length, int id, int *resultado);
 int marca_buscarId(Marca *array, int length, int id, int *indice);
 int marca_validarId (Marca *array,int length,int *id);
@@ -67,7 +67,7 @@ int electro_modificar(Electrodomestico *array, int length, Marca *arrayM, int le
 int electro_baja(Electrodomestico *array, int length, Marca *arrayM, int lengthM);
 int electro_ordenar(Electrodomestico *array, int length);
 
-int electro_altaForzada (Electrodomestico *array, int length);
+int electro_altaForzada(Electrodomestico *array, int length, int *pId);
 
 int marca_hardcodeo(Marca *array, int length, int *id);
 

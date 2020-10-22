@@ -38,6 +38,7 @@ int main(void) {
 	int idRepa = MIN_ID;
 	int idServ = MIN_IDSERV;
 	int idCliente = MIN_ID_CLIENTE;
+	int idElectro = MIN_ID;
 	int opcion;
 	int ret;
 
@@ -51,7 +52,7 @@ int main(void) {
 	servicio_hardcodeo(arrayServicios, QTY_SERVICIOS, &idServ);
 	cliente_hardcodeo(arrayClientes, QTY_CLIENTES, &idCliente);
 
-	electro_altaForzada(arrayElectro, QTY_ELECTRODOMESTICOS);
+	electro_altaForzada(arrayElectro, QTY_ELECTRODOMESTICOS, &idElectro);
 	reparacion_altaForzada(arrayReparaciones, QTY_REPARACIONES, &idRepa);
 
 	do {
@@ -66,11 +67,17 @@ int main(void) {
 				"7- Imprimir Listado Clientes \n"
 				"8- Alta Reparacion \n"
 				"9- Imprimir Listado Reparaciones \n"
-				"10- Informar Electrodomésticos por Marca \n"
-				"11- Informar Reparaciones por Servicio \n"
-				"12 -Informar Cantidad por Servicio \n"
-				"13- Informar Cantidad Total por Servicio \n"
-				"14- Salir \n", "Opción no válida  \n", 1, 14, 2);
+				"10- INFORMES  \n"
+				"11- Salir  \n","Opción Inválida", 1, 11, 2);
+
+		/*
+		 "10- Informar Electrodomésticos por Marca \n"
+		 "11- Informar Reparaciones por Servicio \n"
+		 "12 -Informar Cantidad por Servicio \n"
+		 "13- Informar Cantidad Total por Servicio \n"
+		 "14- Salir \n", "Opción no válida  \n"
+
+		 */
 
 		if (ret == 0) {
 
@@ -81,7 +88,7 @@ int main(void) {
 				marca_imprimirArray(arrayMarcas, QTY_MARCAS);
 
 				if (electro_alta(arrayElectro, QTY_ELECTRODOMESTICOS,
-						arrayMarcas, QTY_MARCAS) == 0) {
+						arrayMarcas, QTY_MARCAS, &idElectro) == 0) {
 					mensajeExito();
 				} else {
 					mensajeError();
@@ -197,9 +204,10 @@ int main(void) {
 					}
 				}
 
-				else{
+				else {
 
-				printf("Aún no se registran cargas de Electrodomésticos para dar de alta una Reparación. \n");
+					printf(
+							"Aún no se registran cargas de Electrodomésticos para dar de alta una Reparación. \n");
 				}
 
 				break;
@@ -210,8 +218,8 @@ int main(void) {
 				QTY_REPARACIONES)) {
 
 					if (reparacion_imprimirArray(arrayReparaciones,
-							QTY_REPARACIONES, arrayElectro,
-							QTY_ELECTRODOMESTICOS, arrayMarcas, QTY_MARCAS,
+					QTY_REPARACIONES, arrayElectro,
+					QTY_ELECTRODOMESTICOS, arrayMarcas, QTY_MARCAS,
 							arrayServicios, QTY_SERVICIOS, arrayClientes,
 							QTY_CLIENTES) == 0) {
 						mensajeExito();
@@ -228,7 +236,82 @@ int main(void) {
 
 			case 10:
 
-				if (informarPorMarca(arrayElectro, QTY_ELECTRODOMESTICOS,
+				do {
+
+					ret =
+							utn_getNumero(&opcion,
+									"Seleccione una opción: \n"
+											"1- Mostrar Electrodomesticos modelo (año)2020 \n"
+											"2- Mostrar Electrodomesticos de una Marca \n"
+											"3- Mostrar Todas las Reparaciones de un Electrodoméstico \n"
+											"4- Listar Electrodomesticos sin reparaciones \n"
+											"5- Informar Importe Total de las Reparaciones de un Electrodoméstico\n"
+											"6- Informar Servicio mas pedido \n"
+											"7- Mostrar Recaudacion de una Fecha en particular \n"
+											"8- Mostrar todos los Electrodomesticos que realizaron una garantía y la Fecha \n"
+											"9- Trabajos realizados a Electrodomesticos del año 2018 \n"
+											"10- Facturación total de los Mantenimientos  \n"
+											"11- Marca de Electrodoméstico con mayor cantidad de Refacciones"
+											"12- Listar los Electrodomésticos que recibieron una reparacion en una fecha determinada  \n"
+											"13- Volver al MENÚ PRINCIPAL  \n",
+									"Opción inválida",1, 13, 2);
+
+					if (ret == 0) {
+
+						switch (opcion) {
+
+
+
+						case 1:
+
+
+							if (informar_electro2020(arrayElectro,QTY_ELECTRODOMESTICOS,arrayMarcas,QTY_MARCAS)==0){
+
+								mensajeExito();
+							}
+
+							break;
+
+						case 2:
+
+
+							if (informar_electroPorMarca(arrayElectro,QTY_ELECTRODOMESTICOS,arrayMarcas,QTY_MARCAS)==0){
+
+								mensajeExito();
+							}
+
+							break;
+						case 3:
+
+							if (informar_repaPorElectro(arrayReparaciones,QTY_CLIENTES,arrayElectro,QTY_ELECTRODOMESTICOS,arrayMarcas,QTY_MARCAS,arrayServicios,QTY_SERVICIOS,arrayClientes,QTY_CLIENTES)==0){
+
+								mensajeExito();
+
+							}
+							break;
+
+						case 4:
+
+							if (informar_electroSinRepa(arrayReparaciones,QTY_CLIENTES,arrayElectro,QTY_ELECTRODOMESTICOS,arrayMarcas,QTY_MARCAS)==0){
+
+								mensajeExito();
+
+							}
+
+
+
+						}
+					}
+
+				}
+
+				while (opcion != 13);
+
+				break;
+
+			case 12:
+
+				if (informar_electroPorMarca(arrayElectro, QTY_ELECTRODOMESTICOS,
 						arrayMarcas, QTY_MARCAS) == 0) {
 
 					mensajeExito();
@@ -239,7 +322,7 @@ int main(void) {
 
 				break;
 
-			case 11:
+			case 13:
 				if (informarPorServicio(arrayReparaciones, QTY_REPARACIONES,
 						arrayElectro, QTY_ELECTRODOMESTICOS, arrayMarcas,
 						QTY_MARCAS, arrayServicios, QTY_SERVICIOS,
@@ -250,10 +333,10 @@ int main(void) {
 				}
 				break;
 
-			case 12:
+			case 14:
 
 				if (informarCantidadPorServicio(arrayReparaciones,
-						QTY_REPARACIONES, arrayElectro, QTY_ELECTRODOMESTICOS,
+				QTY_REPARACIONES, arrayElectro, QTY_ELECTRODOMESTICOS,
 						arrayMarcas,
 						QTY_MARCAS, arrayServicios, QTY_SERVICIOS,
 						arrayClientes, QTY_CLIENTES) == 0) {
@@ -263,10 +346,10 @@ int main(void) {
 				}
 				break;
 
-			case 13:
+			case 15:
 
 				if (informarCantidadServicios(arrayReparaciones,
-						QTY_REPARACIONES, arrayElectro, QTY_ELECTRODOMESTICOS,
+				QTY_REPARACIONES, arrayElectro, QTY_ELECTRODOMESTICOS,
 						arrayMarcas,
 						QTY_MARCAS, arrayServicios, QTY_SERVICIOS,
 						arrayClientes, QTY_CLIENTES) == 0) {
@@ -276,7 +359,7 @@ int main(void) {
 				}
 				break;
 
-			case 14:
+			case 11:
 				printf("Saliendo del programa \n");
 			}
 
@@ -284,7 +367,7 @@ int main(void) {
 			mensajeError();
 		}
 
-	} while (opcion != 14);
+	} while (opcion != 11);
 
 	return EXIT_SUCCESS;
 
