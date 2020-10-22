@@ -240,6 +240,10 @@ int informar_importePorElectro(Reparacion *array, int lengthR,
 
 	int flag = 0;
 
+	float importeServicio = 0;
+
+	float importeTotal = 0;
+
 	int cont = 0;
 
 	if (array != NULL && lengthR > 0) {
@@ -259,9 +263,17 @@ int informar_importePorElectro(Reparacion *array, int lengthR,
 					reparacion_imprimirDescripcion(&array[i], arrayE, lengthE,
 							arrayM, lengthM, arrayS, lengthS, arrayC, lengthC);
 
+					servicio_precioPorId(&importeServicio,arrayS,lengthS,array[i].idServicio);
+
 					flag = 1;
 
 					cont++;
+
+					if (cont>0){
+
+						importeTotal += importeServicio;
+
+					}
 
 				}
 
@@ -277,6 +289,8 @@ int informar_importePorElectro(Reparacion *array, int lengthR,
 	if (flag != 0) {
 
 		printf("Se registraron %d Reparaciones \n", cont);
+
+		printf("Importe total: %.2f \n",importeTotal);
 
 		ret = 0;
 
