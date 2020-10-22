@@ -30,4 +30,6 @@ int informarCantidadPorServicio(Reparacion *array, int lengthR,
 		Servicio *arrayS, int lengthS, Cliente *arrayC, int lengthC);
 
 
+
+
 #endif /* INFORMES_H_ */

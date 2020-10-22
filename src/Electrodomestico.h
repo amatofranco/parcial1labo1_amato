@@ -38,6 +38,7 @@ int isEmpty;
 
 
 int electro_imprimir(Electrodomestico *pElectro, char *descripcion);
+void electro_imprimirColumnas(void);
 int electro_imprimirArray(Electrodomestico *array, int length, Marca *arrayM, int lengthM);
 int electro_imprimirPorId(Electrodomestico *array, int length, Marca *arrayM, int lengthM, int id);
 

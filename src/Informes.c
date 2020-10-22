@@ -7,6 +7,8 @@
 #include "Electrodomestico.h"
 #include "utn_inputs.h"
 
+
+
 int idServicioPorDescripcion(char *descripcion, Servicio *array, int len,
 		int *idServicio) {
 
@@ -51,17 +53,6 @@ int informarPorServicio(Reparacion *array, int lengthR,
 
 	int ret = -1;
 
-	int idMarca;
-
-	char descMarca[MAX_DESC_MARCA];
-
-	char descServicio[MAX_DESC_SERV];
-
-	char nombre[MAX_NOMRBRE];
-
-	char apellido[MAX_APELLIDO];
-
-	float precio;
 
 	int idServicio;
 
@@ -79,35 +70,14 @@ int informarPorServicio(Reparacion *array, int lengthR,
 
 			reparacion_ordenarPorServicio(array, lengthR);
 
-			printf(
-					"------------------------------------------------------------------------------------------------------------------------------------------\n");
-
-			printf("%5s  %20s  %15s   %10s  %15s   %10s  %20s \n", "ID",
-					"CLIENTE", "SERVICIO", "MARCA", "SERIE", "PRECIO", "FECHA");
+			reparacion_imprimirColumnas();
 
 			for (int i = 0; i < lengthR; i++) {
 
-				if (array[i].isEmpty == 0
-						&& array[i].idServicio == idServicio) {
+				if (array[i].isEmpty == 0 && array[i].idServicio == idServicio) {
 
-					electro_marcaPorSerie(&idMarca, arrayE, lengthE,
-							array[i].serie);
-
-					marca_descripcionPorId(descMarca, arrayM, lengthM, idMarca);
-
-					servicio_descripcionPorId(descServicio, arrayS, lengthS,
-							array[i].idServicio);
-
-					servicio_precioPorId(&precio, arrayS, lengthS,
-							array[i].idServicio);
-
-					reparacion_nombreClientePorId(nombre, arrayC, lengthC,
-							array[i].idCliente);
-					reparacion_apellidoClientePorId(apellido, arrayC, lengthC,
-							array[i].idCliente);
-
-					reparacion_imprimir(&array[i], descMarca, descServicio,
-							nombre, apellido, precio);
+					reparacion_imprimirDescripcion(&array[i], arrayE, lengthE,
+					arrayM, lengthM, arrayS, lengthS, arrayC, lengthC);
 
 					flag = 1;
 
@@ -126,7 +96,7 @@ int informarPorServicio(Reparacion *array, int lengthR,
 
 	if (flag != 0) {
 
-		printf("Se registraron %d servicios de %s \n", cont, descServicio);
+		printf("Se registraron %d Servicios \n", cont);
 
 		ret = 0;
 
@@ -144,17 +114,9 @@ int informarCantidadServicios(Reparacion *array, int lengthR,
 
 	int ret = -1;
 
-	int idMarca;
-
-	char descMarca[MAX_DESC_MARCA];
 
 	char descServicio[MAX_DESC_SERV];
 
-	char nombre[MAX_NOMRBRE];
-
-	char apellido[MAX_APELLIDO];
-
-	float precio;
 
 	int cont = 0;
 
@@ -169,35 +131,15 @@ int informarCantidadServicios(Reparacion *array, int lengthR,
 
 			printf("Servicio: %s  \n", descServicio);
 
-			printf(
-					"------------------------------------------------------------------------------------------------------------------------------------------\n");
-
-			printf("%5s  %20s  %15s   %10s  %15s   %10s  %20s \n", "ID",
-					"CLIENTE", "SERVICIO", "MARCA", "SERIE", "PRECIO", "FECHA");
+			reparacion_imprimirColumnas();
 
 			for (int j = 0; j < lengthR; j++) {
 
-				if (array[j].isEmpty == 0
-						&& array[j].idServicio == arrayS[i].id) {
+				if (array[j].isEmpty == 0 && array[j].idServicio == arrayS[i].id) {
 
-					electro_marcaPorSerie(&idMarca, arrayE, lengthE,
-							array[j].serie);
 
-					marca_descripcionPorId(descMarca, arrayM, lengthM, idMarca);
-
-					servicio_descripcionPorId(descServicio, arrayS, lengthS,
-							array[j].idServicio);
-
-					servicio_precioPorId(&precio, arrayS, lengthS,
-							array[j].idServicio);
-
-					reparacion_nombreClientePorId(nombre, arrayC, lengthC,
-							array[j].idCliente);
-					reparacion_apellidoClientePorId(apellido, arrayC, lengthC,
-							array[j].idCliente);
-
-					reparacion_imprimir(&array[j], descMarca, descServicio,
-							nombre, apellido, precio);
+					reparacion_imprimirDescripcion(&array[j], arrayE, lengthE,
+					arrayM, lengthM, arrayS, lengthS, arrayC, lengthC);
 
 					cont++;
 
@@ -227,17 +169,10 @@ int informarCantidadPorServicio(Reparacion *array, int lengthR,
 
 	int ret = -1;
 
-	int idMarca;
 
-	char descMarca[MAX_DESC_MARCA];
 
 	char descServicio[MAX_DESC_SERV];
 
-	char nombre[MAX_NOMRBRE];
-
-	char apellido[MAX_APELLIDO];
-
-	float precio;
 
 	int flag = 0;
 
@@ -259,37 +194,14 @@ int informarCantidadPorServicio(Reparacion *array, int lengthR,
 
 					printf("Servicio: %s  \n", descServicio);
 
-					printf(
-							"------------------------------------------------------------------------------------------------------------------------------------------\n");
-
-					printf("%5s  %20s  %15s   %10s  %15s   %10s  %20s \n", "ID",
-							"CLIENTE", "SERVICIO", "MARCA", "SERIE", "PRECIO",
-							"FECHA");
+					reparacion_imprimirColumnas();
 
 					for (int j = 0; j < lengthR; j++) {
 
-						if (array[j].isEmpty == 0
-								&& array[j].idServicio == arrayS[i].id) {
+						if (array[j].isEmpty == 0 && array[j].idServicio == arrayS[i].id) {
 
-							electro_marcaPorSerie(&idMarca, arrayE, lengthE,
-									array[j].serie);
-
-							marca_descripcionPorId(descMarca, arrayM, lengthM,
-									idMarca);
-
-							servicio_descripcionPorId(descServicio, arrayS,
-									lengthS, array[j].idServicio);
-
-							servicio_precioPorId(&precio, arrayS, lengthS,
-									array[j].idServicio);
-
-							reparacion_nombreClientePorId(nombre, arrayC,
-									lengthC, array[j].idCliente);
-							reparacion_apellidoClientePorId(apellido, arrayC,
-									lengthC, array[j].idCliente);
-
-							reparacion_imprimir(&array[j], descMarca,
-									descServicio, nombre, apellido, precio);
+							reparacion_imprimirDescripcion(&array[j], arrayE, lengthE,
+							arrayM, lengthM, arrayS, lengthS, arrayC, lengthC);
 
 							cont++;
 
@@ -343,11 +255,7 @@ int informarPorMarca(Electrodomestico *array, int length, Marca *arrayM,
 		if (utn_getNumero(&idMarca, "Ingrese el ID de la Marca a informar \n",
 				"Ingreso inválido \n", MIN_IDMARCA, MAX_IDMARCA, 2) == 0) {
 
-			printf(
-					"---------------------------------------------------------------------------------------------\n");
-
-			printf("%10s  %20s   %20s  %20s  \n", "ID", "SERIE", "MARCA",
-					"MODELO");
+			electro_imprimirColumnas();
 
 			for (int i = 0; i < length; i++) {
 
@@ -379,3 +287,5 @@ int informarPorMarca(Electrodomestico *array, int length, Marca *arrayM,
 	}
 	return ret;
 }
+
+

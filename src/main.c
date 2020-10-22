@@ -51,8 +51,8 @@ int main(void) {
 	servicio_hardcodeo(arrayServicios, QTY_SERVICIOS, &idServ);
 	cliente_hardcodeo(arrayClientes, QTY_CLIENTES, &idCliente);
 
-	//electro_altaForzada(arrayElectro, QTY_ELECTRODOMESTICOS);
-	//reparacion_altaForzada(arrayReparaciones, QTY_REPARACIONES, &idRepa);
+	electro_altaForzada(arrayElectro, QTY_ELECTRODOMESTICOS);
+	reparacion_altaForzada(arrayReparaciones, QTY_REPARACIONES, &idRepa);
 
 	do {
 
@@ -197,7 +197,10 @@ int main(void) {
 					}
 				}
 
-				printf("Aún no se registran cargas de Electrodomésticos. \n");
+				else{
+
+				printf("Aún no se registran cargas de Electrodomésticos para dar de alta una Reparación. \n");
+				}
 
 				break;
 

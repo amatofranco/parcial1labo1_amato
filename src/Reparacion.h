@@ -49,7 +49,9 @@ int isEmpty;
 
 
 int reparacion_imprimir(Reparacion *pReparacion, char *marca, char *servicio, char *nombre, char *apellido, float precio);
+void reparacion_imprimirColumnas(void);
 int servicio_imprimir(Servicio *pServicio);
+int reparacion_imprimirDescripcion(Reparacion *reparacion, Electrodomestico *arrayE, int lengthE, Marca *arrayM,int lengthM, Servicio *arrayS, int lengthS, Cliente *arrayC,int lengthC);
 int reparacion_imprimirArray(Reparacion *array, int lengthR, Electrodomestico *arrayE, int lengthE, Marca *arrayM, int lengthM, Servicio *arrayS, int lengthS, Cliente *arrayC, int lengthC);
 int servicio_imprimirArray(Servicio *array, int length);
 int servicio_descripcionPorId(char *descripcion, Servicio *array, int length, int id);
@@ -58,6 +60,7 @@ int reparacion_nombreClientePorId(char *nombre,Cliente *array,int length,int id)
 int reparacion_apellidoClientePorId(char *apellido,Cliente *array,int length,int id);
 
 int reparacion_ordenarPorServicio(Reparacion *array, int length);
+
 
 
 int reparacion_iniciar(Reparacion* list, int len);
