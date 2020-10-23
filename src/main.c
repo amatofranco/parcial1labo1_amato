@@ -52,8 +52,8 @@ int main(void) {
 	servicio_hardcodeo(arrayServicios, QTY_SERVICIOS, &idServ);
 	cliente_hardcodeo(arrayClientes, QTY_CLIENTES, &idCliente);
 
-	electro_altaForzada(arrayElectro, QTY_ELECTRODOMESTICOS, &idElectro);
-	reparacion_altaForzada(arrayReparaciones, QTY_REPARACIONES, &idRepa);
+	//electro_altaForzada(arrayElectro, QTY_ELECTRODOMESTICOS, &idElectro);
+	// reparacion_altaForzada(arrayReparaciones, QTY_REPARACIONES, &idRepa);
 
 	do {
 
