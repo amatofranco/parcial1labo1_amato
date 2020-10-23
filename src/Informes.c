@@ -456,6 +456,71 @@ int informar_importePorFecha(Reparacion *array, int lengthR,
 	return ret;
 }
 
+
+
+int informar_electroGarantia (Reparacion *array, int lengthR,
+		Electrodomestico *arrayE, int lengthE, Marca *arrayM, int lengthM,
+		Servicio *arrayS, int lengthS, Cliente *arrayC, int lengthC) {
+
+	int ret = -1;
+
+	int serieElectro;
+
+	int flag = 0;
+
+	int cont = 0;
+
+	if (array != NULL && lengthR > 0) {
+
+
+			reparacion_imprimirColumnas();
+
+			for (int j = 0; j < lengthE; j++) {
+
+
+				serieElectro = arrayE[j].serie;
+
+				for (int i = 0; i < lengthR; i++) {
+
+					if (array[i].isEmpty == 0 && array[i].serie == serieElectro && array[i].idServicio == 20000) {
+
+						reparacion_imprimirDescripcion(&array[i],arrayE,lengthE,arrayM,lengthM,arrayS,lengthS,arrayC,lengthC);
+
+						flag = 1;
+
+						cont ++;
+					}
+
+
+
+				}
+
+			}
+
+			printf(
+					"----------------------------------------------------------------------------------------------------------------------------------------------\n");
+
+
+			if (flag!=0){
+
+				printf("Se registraron %d Servicios de Garantía \n",cont);
+			}
+
+
+			else {
+
+				printf("No se registran Electrodomésticos con servicio de Garantía \n");
+			}
+
+
+	}
+
+	ret = 0;
+
+
+return ret;
+}
+
 ////////////////////////////////////////////////////////////////////////////
 
 int idServicioPorDescripcion(char *descripcion, Servicio *array, int len,
