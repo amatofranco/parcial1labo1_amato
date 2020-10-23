@@ -251,7 +251,7 @@ int main(void) {
 											"8- Mostrar todos los Electrodomesticos que realizaron una garantía y la Fecha \n"
 											"9- Trabajos realizados a Electrodomesticos del año 2018 \n"
 											"10- Facturación total de los Mantenimientos  \n"
-											"11- Marca de Electrodoméstico con mayor cantidad de Refacciones"
+											"11- Marca de Electrodoméstico con mayor cantidad de Refacciones \n"
 											"12- Listar los Electrodomésticos que recibieron una reparacion en una fecha determinada  \n"
 											"13- Volver al MENÚ PRINCIPAL  \n",
 									"Opción inválida", 1, 13, 2);
@@ -263,8 +263,8 @@ int main(void) {
 						case 1:
 
 							if (informar_electro2020(arrayElectro,
-									QTY_ELECTRODOMESTICOS, arrayMarcas,
-									QTY_MARCAS) == 0) {
+							QTY_ELECTRODOMESTICOS, arrayMarcas,
+							QTY_MARCAS) == 0) {
 
 								mensajeExito();
 							}
@@ -274,8 +274,8 @@ int main(void) {
 						case 2:
 
 							if (informar_electroPorMarca(arrayElectro,
-									QTY_ELECTRODOMESTICOS, arrayMarcas,
-									QTY_MARCAS) == 0) {
+							QTY_ELECTRODOMESTICOS, arrayMarcas,
+							QTY_MARCAS) == 0) {
 
 								mensajeExito();
 							}
@@ -284,9 +284,9 @@ int main(void) {
 						case 3:
 
 							if (informar_repaPorElectro(arrayReparaciones,
-									QTY_CLIENTES, arrayElectro,
-									QTY_ELECTRODOMESTICOS, arrayMarcas,
-									QTY_MARCAS, arrayServicios, QTY_SERVICIOS,
+							QTY_CLIENTES, arrayElectro,
+							QTY_ELECTRODOMESTICOS, arrayMarcas,
+							QTY_MARCAS, arrayServicios, QTY_SERVICIOS,
 									arrayClientes, QTY_CLIENTES) == 0) {
 
 								mensajeExito();
@@ -297,9 +297,9 @@ int main(void) {
 						case 4:
 
 							if (informar_electroSinRepa(arrayReparaciones,
-									QTY_CLIENTES, arrayElectro,
-									QTY_ELECTRODOMESTICOS, arrayMarcas,
-									QTY_MARCAS) == 0) {
+							QTY_CLIENTES, arrayElectro,
+							QTY_ELECTRODOMESTICOS, arrayMarcas,
+							QTY_MARCAS) == 0) {
 
 								mensajeExito();
 
@@ -310,9 +310,9 @@ int main(void) {
 						case 5:
 
 							if (informar_importePorElectro(arrayReparaciones,
-									QTY_CLIENTES, arrayElectro,
-									QTY_ELECTRODOMESTICOS, arrayMarcas,
-									QTY_MARCAS, arrayServicios, QTY_SERVICIOS,
+							QTY_CLIENTES, arrayElectro,
+							QTY_ELECTRODOMESTICOS, arrayMarcas,
+							QTY_MARCAS, arrayServicios, QTY_SERVICIOS,
 									arrayClientes, QTY_CLIENTES) == 0) {
 
 								mensajeExito();
@@ -324,9 +324,9 @@ int main(void) {
 						case 6:
 
 							if (informar_cantidadServicios(arrayReparaciones,
-									QTY_CLIENTES, arrayElectro,
-									QTY_ELECTRODOMESTICOS, arrayMarcas,
-									QTY_MARCAS, arrayServicios, QTY_SERVICIOS,
+							QTY_CLIENTES, arrayElectro,
+							QTY_ELECTRODOMESTICOS, arrayMarcas,
+							QTY_MARCAS, arrayServicios, QTY_SERVICIOS,
 									arrayClientes, QTY_CLIENTES) == 0) {
 
 								mensajeExito();
@@ -338,9 +338,9 @@ int main(void) {
 						case 7:
 
 							if (informar_importePorFecha(arrayReparaciones,
-									QTY_CLIENTES, arrayElectro,
-									QTY_ELECTRODOMESTICOS, arrayMarcas,
-									QTY_MARCAS, arrayServicios, QTY_SERVICIOS,
+							QTY_CLIENTES, arrayElectro,
+							QTY_ELECTRODOMESTICOS, arrayMarcas,
+							QTY_MARCAS, arrayServicios, QTY_SERVICIOS,
 									arrayClientes, QTY_CLIENTES) == 0) {
 
 								mensajeExito();
@@ -348,11 +348,35 @@ int main(void) {
 							}
 
 							break;
-
 
 						case 8:
 
 							if (informar_electroGarantia(arrayReparaciones,
+							QTY_CLIENTES, arrayElectro,
+							QTY_ELECTRODOMESTICOS, arrayMarcas,
+							QTY_MARCAS, arrayServicios, QTY_SERVICIOS,
+									arrayClientes, QTY_CLIENTES) == 0) {
+
+								mensajeExito();
+							}
+
+							break;
+
+						case 9:
+
+							if (informar_repaElectro2018(arrayReparaciones,
+							QTY_CLIENTES, arrayElectro,
+							QTY_ELECTRODOMESTICOS, arrayMarcas,
+							QTY_MARCAS, arrayServicios, QTY_SERVICIOS,
+									arrayClientes, QTY_CLIENTES) == 0) {
+
+								mensajeExito();
+							}
+
+						case 10:
+
+							if (informar_importePorMantenimiento(
+									arrayReparaciones,
 									QTY_CLIENTES, arrayElectro,
 									QTY_ELECTRODOMESTICOS, arrayMarcas,
 									QTY_MARCAS, arrayServicios, QTY_SERVICIOS,
@@ -360,8 +384,6 @@ int main(void) {
 
 								mensajeExito();
 							}
-
-							break;
 
 						}
 					}
@@ -370,56 +392,6 @@ int main(void) {
 
 				while (opcion != 13);
 
-				break;
-
-			case 12:
-
-				if (informar_electroPorMarca(arrayElectro,
-						QTY_ELECTRODOMESTICOS, arrayMarcas, QTY_MARCAS) == 0) {
-
-					mensajeExito();
-				} else {
-					mensajeError();
-
-				}
-
-				break;
-
-			case 13:
-				if (informarPorServicio(arrayReparaciones, QTY_REPARACIONES,
-						arrayElectro, QTY_ELECTRODOMESTICOS, arrayMarcas,
-						QTY_MARCAS, arrayServicios, QTY_SERVICIOS,
-						arrayClientes, QTY_CLIENTES) == 0) {
-					mensajeExito();
-				} else {
-					mensajeError();
-				}
-				break;
-
-			case 14:
-
-				if (informarCantidadPorServicio(arrayReparaciones,
-				QTY_REPARACIONES, arrayElectro, QTY_ELECTRODOMESTICOS,
-						arrayMarcas,
-						QTY_MARCAS, arrayServicios, QTY_SERVICIOS,
-						arrayClientes, QTY_CLIENTES) == 0) {
-					mensajeExito();
-				} else {
-					mensajeError();
-				}
-				break;
-
-			case 15:
-
-				if (informar_cantidadServicios(arrayReparaciones,
-				QTY_REPARACIONES, arrayElectro, QTY_ELECTRODOMESTICOS,
-						arrayMarcas,
-						QTY_MARCAS, arrayServicios, QTY_SERVICIOS,
-						arrayClientes, QTY_CLIENTES) == 0) {
-					mensajeExito();
-				} else {
-					mensajeError();
-				}
 				break;
 
 			case 11:
