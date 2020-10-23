@@ -446,7 +446,7 @@ int informar_importePorFecha(Reparacion *array, int lengthR,
 	} else {
 
 		printf(
-				"No se registran Reparaciones relacionadas al Electrodomestico elegido \n");
+				"No se registran importes en la Fecha elegida \n");
 	}
 
 	return ret;
