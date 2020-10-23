@@ -7,6 +7,8 @@
 #include "Electrodomestico.h"
 #include "utn_inputs.h"
 
+
+
 int informar_electro2020(Electrodomestico *array, int length, Marca *arrayM,
 		int lengthM) {
 
@@ -637,177 +639,82 @@ int informar_importePorMantenimiento(Reparacion *array, int lengthR,
 	return ret;
 }
 
-////////////////////////////////////////////////////////////////////////////
 
-int idServicioPorDescripcion(char *descripcion, Servicio *array, int len,
-		int *idServicio) {
-
-	int retorno = -1;
-	int i;
-
-	if (array != NULL && len > 0 && descripcion != NULL) {
-
-		for (i = 0; i < len; i++) {
-			if (strcmp(array[i].descripcion, descripcion) == 0) {
-				*idServicio = array[i].id;
-				retorno = 0;
-
-				break;
-			}
-		}
-	}
-
-	return retorno;
-}
-
-int cargarDescripcionServicioPorId(int idServicio, Servicio *array, int length,
-		char *descripcion) {
-	int retorno = -1;
-	int i;
-
-	if (array != NULL && length > 0 && descripcion != NULL) {
-		for (i = 0; i < length; i++) {
-			if (array[i].id == idServicio) {
-				strncpy(descripcion, array[i].descripcion, MAX_DESC_SERV);
-				retorno = 0;
-				break;
-			}
-		}
-	}
-	return retorno;
-}
-
-int informarPorServicio(Reparacion *array, int lengthR,
+int informar_cantidadRefacciones(Reparacion *array, int lengthR,
 		Electrodomestico *arrayE, int lengthE, Marca *arrayM, int lengthM,
 		Servicio *arrayS, int lengthS, Cliente *arrayC, int lengthC) {
 
 	int ret = -1;
 
-	int idServicio;
+	int cont = 0;
 
 	int flag = 0;
 
-	int cont = 0;
+	int mayorCantidad = 0;
+
+	int idMarca;
+
+	int mayorMarca;
 
 	if (array != NULL && lengthR > 0) {
 
-		servicio_imprimirArray(arrayS, lengthS);
+		reparacion_ordenarPorServicio(array, lengthR);
 
-		if (utn_getNumero(&idServicio,
-				"Ingrese el ID del Servicio a informar \n",
-				"Ingreso inválido \n", MIN_IDSERV, MAX_IDSERV, 2) == 0) {
+		for (int i = 0; i < lengthS; i++) {
 
-			reparacion_ordenarPorServicio(array, lengthR);
 
 			reparacion_imprimirColumnas();
 
-			for (int i = 0; i < lengthR; i++) {
+			for (int j = 0; j < lengthR; j++) {
 
-				if (array[i].isEmpty == 0
-						&& array[i].idServicio == idServicio) {
+				if (array[j].isEmpty == 0 && array[j].idServicio == 20003) {
 
-					reparacion_imprimirDescripcion(&array[i], arrayE, lengthE,
+					reparacion_imprimirDescripcion(&array[j], arrayE, lengthE,
 							arrayM, lengthM, arrayS, lengthS, arrayC, lengthC);
 
-					flag = 1;
+					electro_marcaPorSerie(&idMarca,arrayE,lengthE,array[j].serie);
 
 					cont++;
+					flag = 1;
 
 				}
+			}
+
+			if (cont > mayorCantidad) {
+
+				mayorCantidad = cont;
+
+				mayorMarca = idMarca;
 
 			}
 
-			printf(
-					"------------------------------------------------------------------------------------------------------------------------------------------\n");
+			if (flag == 1) {
+
+				printf(
+						"-----------------------------------------------------------------------------------------------------------------------------------------\n");
+				printf("Cantidad: %d \n", cont);
+
+				printf(
+						"------------------------------------------------------------------------------------------------------------------------------------------\n");
+
+				cont = 0;
+				flag = 0;
+			}
+
+			else {
+				printf("No se registró ningún Servicio \n");
+				printf(
+						"------------------------------------------------------------------------------------------------------------------------------------------\n");
+			}
 
 		}
 
-	}
-
-	if (flag != 0) {
-
-		printf("Se registraron %d Servicios \n", cont);
+		printf("Id Marca mas pedido: %d\n", mayorMarca);
 
 		ret = 0;
 
-	} else {
-
-		printf("No se registran cargas relacionadas al Servicio elegido \n");
-	}
-
-	return ret;
-}
-
-int informarCantidadPorServicio(Reparacion *array, int lengthR,
-		Electrodomestico *arrayE, int lengthE, Marca *arrayM, int lengthM,
-		Servicio *arrayS, int lengthS, Cliente *arrayC, int lengthC) {
-
-	int ret = -1;
-
-	char descServicio[MAX_DESC_SERV];
-
-	int flag = 0;
-
-	int cont = 0;
-
-	if (array != NULL && lengthR > 0) {
-
-		servicio_imprimirArray(arrayS, lengthS);
-
-		if (utn_getTexto(descServicio,
-				"Ingrese la descripcion del SERVICIO a Informar \n",
-				"Ingreso inválido \n", 1, MAX_DESC_SERV, 2) == 0) {
-
-			reparacion_ordenarPorServicio(array, lengthR);
-
-			for (int i = 0; i < lengthS; i++) {
-
-				if (strcmp(descServicio, arrayS[i].descripcion) == 0) {
-
-					printf("Servicio: %s  \n", descServicio);
-
-					reparacion_imprimirColumnas();
-
-					for (int j = 0; j < lengthR; j++) {
-
-						if (array[j].isEmpty == 0
-								&& array[j].idServicio == arrayS[i].id) {
-
-							reparacion_imprimirDescripcion(&array[j], arrayE,
-									lengthE, arrayM, lengthM, arrayS, lengthS,
-									arrayC, lengthC);
-
-							cont++;
-
-							flag = 1;
-
-						}
-					}
-
-					printf(
-							"-----------------------------------------------------------------------------------------------------------------------------------------\n");
-					printf("Cantidad: %d \n", cont);
-
-					printf(
-							"------------------------------------------------------------------------------------------------------------------------------------------\n");
-
-					cont = 0;
-
-				}
-			}
-
-		}
-
-		if (flag != 0) {
-
-			ret = 0;
-		}
-
-		else {
-			printf("No se registran cargas del servicio elegido \n");
-		}
-
 	}
 	return ret;
 }
+
 

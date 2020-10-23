@@ -68,16 +68,8 @@ int main(void) {
 				"8- Alta Reparacion \n"
 				"9- Imprimir Listado Reparaciones \n"
 				"10- INFORMES  \n"
-				"11- Salir  \n", "Opción Inválida", 1, 11, 2);
+				"12- Salir  \n", "Opción Inválida", 1, 12, 2);
 
-		/*
-		 "10- Informar Electrodomésticos por Marca \n"
-		 "11- Informar Reparaciones por Servicio \n"
-		 "12 -Informar Cantidad por Servicio \n"
-		 "13- Informar Cantidad Total por Servicio \n"
-		 "14- Salir \n", "Opción no válida  \n"
-
-		 */
 
 		if (ret == 0) {
 
@@ -251,10 +243,8 @@ int main(void) {
 											"8- Mostrar todos los Electrodomesticos que realizaron una garantía y la Fecha \n"
 											"9- Trabajos realizados a Electrodomesticos del año 2018 \n"
 											"10- Facturación total de los Mantenimientos  \n"
-											"11- Marca de Electrodoméstico con mayor cantidad de Refacciones \n"
-											"12- Listar los Electrodomésticos que recibieron una reparacion en una fecha determinada  \n"
-											"13- Volver al MENÚ PRINCIPAL  \n",
-									"Opción inválida", 1, 13, 2);
+											"11- Volver al MENÚ PRINCIPAL  \n",
+									"Opción inválida", 1, 11, 2);
 
 					if (ret == 0) {
 
@@ -385,16 +375,18 @@ int main(void) {
 								mensajeExito();
 							}
 
+							break;
+
 						}
 					}
 
 				}
 
-				while (opcion != 13);
+				while (opcion != 11);
 
 				break;
 
-			case 11:
+			case 12:
 				printf("Saliendo del programa \n");
 			}
 
@@ -402,7 +394,7 @@ int main(void) {
 			mensajeError();
 		}
 
-	} while (opcion != 11);
+	} while (opcion != 12);
 
 	return EXIT_SUCCESS;
 

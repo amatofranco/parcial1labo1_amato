@@ -40,26 +40,11 @@ int informar_repaElectro2018(Reparacion *array, int lengthR,
 int informar_importePorMantenimiento(Reparacion *array, int lengthR,
 		Electrodomestico *arrayE, int lengthE, Marca *arrayM, int lengthM,
 		Servicio *arrayS, int lengthS, Cliente *arrayC, int lengthC);
+
+int informar_cantidadRefacciones(Reparacion *array, int lengthR,
+		Electrodomestico *arrayE, int lengthE, Marca *arrayM, int lengthM,
+		Servicio *arrayS, int lengthS, Cliente *arrayC, int lengthC);
 //////////////////////////////////////////////////////////////////////////
-int idServicioPorDescripcion(char *descripcion, Servicio *array, int len,
-		int *idServicio);
-
-int informarPorServicio(Reparacion *array, int lengthR,
-		Electrodomestico *arrayE, int lengthE, Marca *arrayM, int lengthM,
-		Servicio *arrayS, int lengthS, Cliente *arrayC, int lengthC);
-
-
-
-int cargarDescripcionServicioPorId(int idServicio, Servicio *array, int length,
-		char *descripcion);
-
-
-
-int informarCantidadPorServicio(Reparacion *array, int lengthR,
-		Electrodomestico *arrayE, int lengthE, Marca *arrayM, int lengthM,
-		Servicio *arrayS, int lengthS, Cliente *arrayC, int lengthC);
-
-
 
 
 #endif /* INFORMES_H_ */
